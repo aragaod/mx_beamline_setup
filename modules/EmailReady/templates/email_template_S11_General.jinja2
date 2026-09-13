@@ -1,0 +1,49 @@
+Greetings from the beamline!
+
+We hope you're having a great week. The {{beamline}} is all prepared and ready for your upcoming experiment. You can connect via NX to get started.
+
+### An Update for You
+
+**Date:** {{ human_date }}
+
+The beamline is ready when you are.
+
+### A Quick Reminder
+
+As always, it's a good idea to check the "Messages" menu in GDA for any recent updates.
+
+### Standard Beamline Conditions
+
+  - Energy: 13000 eV
+  - Beam Size: 30x20 microns (HxV)
+  - Collection Protocol: 'Set target dose'. This is our recommended approach to help mitigate radiation damage.
+
+### Beam Performance
+
+The beam is performing well today. {% if test_data_available %}As an indication of the beam quality, our test data collection on {{ a_test_sample }} crystal returned an Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}.{% else %}The instrument is in good condition and ready for your experiments.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Sample Loading for Proposal: {{ puck_info.proposal }}
+
+We have loaded your {{ puck_info.puck_names | length }} puck(s) for your experiment into the robot dewar.
+  - Puck Names: {{ puck_info.puck_names | join(', ') }}
+  - Robot Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Sample Loading
+
+We've loaded your pucks into the robot dewar for you.
+{% endif %}
+
+### Shift Handovers
+
+Please be aware of the protocol for handing over the beamline. If the Unattended Data Collection (UDC) system is running at the start of your session, please request the baton in GDA. At the end of your session, if the next user is not present, please pass the baton to the 'udc' user before you unload your pucks.
+
+### Support
+
+For any support needed, please contact the Experimental Hall Coordinators (EHCs).
+
+All the best for your experiment,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

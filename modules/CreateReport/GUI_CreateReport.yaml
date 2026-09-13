@@ -1,0 +1,18 @@
+WP1_Label_1_Title: "RemoteAccess_WZ"
+WP1_Label_1_Text: |
+  Beamline setup is complete. If would like to post
+  the QC report to elog please click NEXT.
+
+WP2_Label_1_Title: "RemoteAccess_WZ"
+WP2_Label_1_Text: |
+  Congratulations your beamline setup report is now
+  available on elog! 
+
+  Press FINISHED and then please close the QC GUI. 
+
+display_configuration: "/dls_sw/{BEAMLINE}/software/gda_versions/var/display.configuration"
+
+# The wording for a module that was not run lives in **that module's own YAML**,
+# under `not_run`, not here. It is knowledge about that module, and someone
+# working on it should not have to edit the reporting module to change its own
+# text. CreateReport reads it at render time - see `module_config_path`.

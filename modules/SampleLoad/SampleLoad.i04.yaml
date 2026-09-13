@@ -1,0 +1,53 @@
+# i04 configuration for SampleLoad.
+#
+# The file next to this one, SampleLoad.yaml, holds everything that is the same on
+# every beamline: what the check is, the wizard text, the report layout. This
+# file holds what is true only on i04 - EPICS addresses, instrument paths
+# and the thresholds, which are i04 physics.
+#
+# Another beamline adds SampleLoad.<ID>.yaml beside these two. It is merged over the
+# shared file, so it need only state what differs; a key set to null is removed
+# entirely, which is how a beamline without a given device drops the check.
+
+logistics_api_base_url: "https://logistics.example.org"
+blocked_positions_file: "/dls_sw/i04/software/gda_var/sampleChanger.blockedPositions.txt"
+
+PVs:
+  BL04I-MO-ROBOT-01:
+    "Puck name in location 01": PUCK_01_NAME
+    "Puck name in location 02": PUCK_02_NAME
+    "Puck name in location 03": PUCK_03_NAME
+    "Puck name in location 04": PUCK_04_NAME
+    "Puck name in location 05": PUCK_05_NAME
+    "Puck name in location 06": PUCK_06_NAME
+    "Puck name in location 07": PUCK_07_NAME
+    "Puck name in location 08": PUCK_08_NAME
+    "Puck name in location 09": PUCK_09_NAME
+    "Puck name in location 10": PUCK_10_NAME
+    "Puck name in location 11": PUCK_11_NAME
+    "Puck name in location 12": PUCK_12_NAME
+    "Puck name in location 13": PUCK_13_NAME
+    "Puck name in location 14": PUCK_14_NAME
+    "Puck name in location 15": PUCK_15_NAME
+    "Puck name in location 16": PUCK_16_NAME
+    "Puck name in location 17": PUCK_17_NAME
+    "Puck name in location 18": PUCK_18_NAME
+    "Puck name in location 19": PUCK_19_NAME
+    "Puck name in location 20": PUCK_20_NAME
+    "Puck name in location 21": PUCK_21_NAME
+    "Puck name in location 22": PUCK_22_NAME
+    "Puck name in location 23": PUCK_23_NAME
+    "Puck name in location 24": PUCK_24_NAME
+    "Puck name in location 25": PUCK_25_NAME
+    "Puck name in location 26": PUCK_26_NAME
+    "Puck name in location 27": PUCK_27_NAME
+    "Puck name in location 28": PUCK_28_NAME
+    "Puck name in location 29": PUCK_29_NAME
+    "Puck name in location 30": PUCK_30_NAME
+    "Puck name in location 31": PUCK_31_NAME
+    "Puck name in location 32": PUCK_32_NAME
+    "Puck name in location 33": PUCK_33_NAME
+    "Puck name in location 34": PUCK_34_NAME
+    "Puck name in location 35": PUCK_35_NAME
+    "Puck name in location 36": PUCK_36_NAME
+    "Puck name in location 37": PUCK_37_NAME

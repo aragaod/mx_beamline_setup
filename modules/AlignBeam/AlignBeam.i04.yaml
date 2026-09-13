@@ -1,0 +1,192 @@
+# i04 configuration for AlignBeam.
+#
+# The file next to this one, AlignBeam.yaml, holds everything that is the same on
+# every beamline: what the check is, the wizard text, the report layout. This
+# file holds what is true only on i04 - EPICS addresses, instrument paths
+# and the thresholds, which are i04 physics.
+#
+# Another beamline adds AlignBeam.<ID>.yaml beside these two. It is merged over the
+# shared file, so it need only state what differs; a key set to null is removed
+# entirely, which is how a beamline without a given device drops the check.
+
+PVs:
+  BL04I-EA-ATTN-01:
+    TRANSMISSION: LAST_APPLIED_TRANS
+
+  BL04I-MO-FLUX-01:
+    FLUX: SAMP
+
+  BL04I-EA-FDBK-01:
+    Feedback_enable: FB_ENABLE
+    # These were both called Feedback_good until 2026-08-31. YAML keeps the last
+    # of a repeated key, so XBPM1 was never read and never checked, while the
+    # report showed one row that staff believed covered both beam position monitors.
+    Feedback_XBPM1_good: XBPM1POSITION_OK
+    Feedback_XBPM2_good: XBPM2POSITION_OK
+
+  SR-DI-I04-01:
+    Machine_X_STEER: "X:ANGLE"
+    Machine_Y_STEER: "Y:ANGLE"
+  
+  BL04I-MO-FSWT-01:
+    PID_XBPM2_X_KP: FDBK1.KP 
+    PID_XBPM2_X_rate: FDBK1.SCAN
+    PID_XBPM2_Y_KP: FDBK2.KP 
+    PID_XBPM2_Y_rate: FDBK2.SCAN
+    BEAM_SIZE_Y: VER
+    BEAM_SIZE_X: HOR
+
+  BL04I-AL-SLITS-04:
+    S4_slits_X: XGAP.RBV
+    S4_slits_Y: YGAP.RBV
+
+  # Is there actually beam on the scintillator? Without these the module can
+  # photograph a dark field and report it as a beam alignment.
+  BL04I-MO-SCIN-01:
+    Scintillator_Y: Y.RBV
+  BL04I-PS-SHTR-01:
+    Endstation_shutter: STA
+  BL04I-EA-SHTR-01:
+    Fast_shutter: STA
+
+  BL04I-MO-DCM-01:
+    DCM_roll: ROLL.RBV
+    DCM_pitch: PITCH.RBV
+    DCMP_temp1: TEMP1
+    PID_XBPM1_X_KP: FDBK1.KP
+    PID_XBPM1_X_rate: FDBK1.SCAN
+    PID_XBPM1_Y_KP: FDBK2.KP
+    PID_XBPM1_Y_rate: FDBK2.SCAN
+
+# PVs whose value is genuinely text and must be read with as_string=True.
+# Everything else is read raw, so that comparisons with yesterday see the number
+# the IOC holds rather than the number the EDM screen displays - see the note in
+# AlignBeam.setup_PVs. Getting this list wrong is visible immediately: a numeric
+# PV listed here comes back rounded, and a text PV not listed comes back as the
+# enum's index instead of its label.
+string_pvs:
+  - Endstation_shutter # 'Open' / 'Closed' / 'Opening' / 'Closing' / 'Fault'
+  - Fast_shutter # 'Open' / 'Close'
+  - Feedback_enable # 'Run'
+  - PID_XBPM1_X_rate # '.2 second'
+  - PID_XBPM1_Y_rate
+  - PID_XBPM2_X_rate # '.5 second'
+  - PID_XBPM2_Y_rate
+
+assessment_rules:
+  TRANSMISSION:
+    check_type: 'range'
+    # [good_min, good_max, warning_min, warning_max]
+    limits: [6, 35, 4, 51] 
+  FLUX:
+    # Compared with yesterday after normalising to 100% transmission, because
+    # staff work at whatever transmission suits the day. Measured day-to-day
+    # variation at constant transmission is ~1.3% median, so 10% is a generous
+    # good band. Was [5], a single limit, which made assess_deadband raise and
+    # report danger on every setup from 2025-06-12 to 2026-08-11.
+    check_type: 'custom_flux'
+    limits: [10, 20] # good <= 10% change, warning <= 20%, danger above
+  Feedback_enable:
+    check_type: 'equals'
+    good_value: 'Run'
+  Feedback_XBPM1_good:
+    check_type: 'equals'
+    good_value: '1'
+  Feedback_XBPM2_good:
+    check_type: 'equals'
+    good_value: '1'
+  Machine_X_STEER:
+    check_type: 'deadband_absolute'
+    # [good_if_change_is_less_than, warning_if_change_is_less_than]
+    limits: [0, 2] 
+  Machine_Y_STEER:
+    check_type: 'deadband_absolute'
+    limits: [0, 2]
+  # Feedback loop proportional gains. XBPM1 drives the DCM, XBPM2 drives FSWT.
+  #
+  # These were 'equals' against a single nominal until 2026-08-31, and the XBPM1
+  # X and Y nominals were exchanged - each rule asked for the other's value,
+  # including the sign - so both read danger on all 109 recorded days.
+  #
+  # What actually matters is how aggressive the loop is. A gain that is too large
+  # makes the feedback chase a beam position that has already moved on, which at
+  # low energy (6-7 keV) reinforces the vibration instead of damping it and loses
+  # the beam. The gain gets raised during commissioning because an aggressive loop
+  # settles faster at 13 keV, and it is supposed to be put back before user
+  # operation.
+  #
+  # It drifts in one direction because the EDM screen will not accept a value
+  # below 1e-5, so the safe value can only be restored with a caput. That only
+  # bites the DCM X loop, which is the one that normally runs below 1e-5.
+  PID_XBPM1_X_KP:
+    check_type: 'abs_limit_and_change'
+    limits: [8.0e-6, 1.0e-5] # good |v| <= 8e-6; danger at 1e-5, the aggressive value
+    default: 6.0e-6 # diagnostics group value - CONFIRM against Confluence
+  # TODO: the other three loops need a safe ceiling from the diagnostics group
+  # before they can use abs_limit_and_change. Until then they detect change only,
+  # which is still better than the reversed nominals they had.
+  PID_XBPM1_Y_KP:
+    check_type: 'equals_previous'
+  PID_XBPM2_X_KP:
+    check_type: 'equals_previous'
+  PID_XBPM2_Y_KP:
+    check_type: 'equals_previous'
+  PID_XBPM2_X_rate:
+    check_type: 'equals_previous'
+  PID_XBPM2_Y_rate:
+    check_type: 'equals_previous'
+  PID_XBPM1_X_rate:
+    check_type: 'equals_previous'
+  PID_XBPM1_Y_rate:
+    check_type: 'equals_previous'
+  # Beam size is selected with CRLs at discrete set points, but the readback
+  # depends on the energy. The default beam is nominally 30x20 um (H,V) and at
+  # 13 keV reads 30x19, which it did on 177 of the 191 recorded setups. So a
+  # value a little off is an indirect signal that the energy is not where it
+  # should be, and a value far off is a different CRL setting entirely.
+  # Both bands were [good, good] until 2026-08-31, which made the check binary:
+  # warning could never be reached and there was no early signal before red.
+  BEAM_SIZE_Y:
+    check_type: 'range'
+    limits: [18.5, 19.5, 17.5, 20.5] # good 19; warning 18 or 20; danger beyond
+  BEAM_SIZE_X:
+    check_type: 'range'
+    limits: [29.5, 30.5, 28.5, 32.5] # good 30; warning 29, 31, 32; danger beyond
+  # --- Is there beam on the scintillator? -------------------------------
+  Scintillator_Y:
+    # Out is roughly -0.45, in is roughly 96.35, and those setpoints get retuned:
+    # the history in beamlineParameters records the in position at 93.42, 96.22,
+    # 96.61, 96.92, 97.1, 97.25 and 97.45 over time. So this is deliberately a
+    # loose threshold in the gap rather than a copy of either value, which would
+    # need maintaining. The warning band catches the scintillator stopped part
+    # way, which otherwise shows up only as strange images.
+    check_type: 'greater_than'
+    limits: [50, 20] # good: in the beam. warning: part way. danger: out.
+  Endstation_shutter:
+    # Five states, not two - Fault, Open, Opening, Closed, Closing - so this
+    # tests for Open rather than for "not Closed", which would let a fault or a
+    # mid-transition pass as ready.
+    check_type: 'equals'
+    good_value: 'Open'
+  Fast_shutter:
+    # Spells shut 'Close' where the endstation shutter spells it 'Closed', which
+    # is another reason both are tested against Open.
+    check_type: 'equals'
+    good_value: 'Open'
+
+  S4_slits_X:
+    check_type: 'custom_slits' # This requires special logic in Python
+    limits: [0.8, 0.5] # [good_if_above, danger_if_below]
+  S4_slits_Y:
+    check_type: 'custom_slits'
+    limits: [0.8, 0.5]
+  DCM_roll:
+    check_type: 'deadband_absolute'
+    limits: [0.5, 1.0] # good <= 0.5, warn <= 1.0, danger > 1.0
+  DCM_pitch:
+    check_type: 'deadband_absolute'
+    limits: [0.5, 1.0]
+  DCMP_temp1:
+    check_type: 'deadband_percent'
+    limits: [2, 5] # good <= 2%, warn <= 5%, danger > 5%
+zoom_pv: "BL04I-EA-OAV-01:FZOOM:MP:SELECT"

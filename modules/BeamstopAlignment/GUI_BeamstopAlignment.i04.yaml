@@ -1,0 +1,73 @@
+# i04 configuration for BeamstopAlignment.
+#
+# The file next to this one, GUI_BeamstopAlignment.yaml, holds everything that is the same on
+# every beamline: what the check is, the wizard text, the report layout. This
+# file holds what is true only on i04 - EPICS addresses, instrument paths
+# and the thresholds, which are i04 physics.
+#
+# Another beamline adds GUI_BeamstopAlignment.<ID>.yaml beside these two. It is merged over the
+# shared file, so it need only state what differs; a key set to null is removed
+# entirely, which is how a beamline without a given device drops the check.
+
+# Redis Search Configuration
+redis_list_key: "i04:eiger:collections"
+redis_schema_key: "i04:eiger:collections:schema"
+
+# Definitions for the 3 positions
+beamstop_definitions:
+  high_resolution:
+    label: "High Resolution"
+    approx_distance: 30.0
+    distance_tolerance: 1.0
+    filename_patterns: ["hres", "high_res"]
+    required_transmission: 100.0
+  
+  standard:
+    label: "Standard"
+    approx_distance: 30.0
+    distance_tolerance: 1.0
+    filename_patterns: ["std", "bs_std"]
+    required_transmission: 100.0
+  
+  low_resolution:
+    label: "Low Resolution"
+    approx_distance: 49.25
+    distance_tolerance: 1.0
+    filename_patterns: ["lres", "low_res", "bs_low"]
+    required_transmission: 100.0
+
+# Assessment Rules
+assessment_rules:
+  BS_X_high_resolution:
+    check_type: 'deadband_absolute'
+    limits: [0.011, 0.021]
+  BS_Y_high_resolution:
+    check_type: 'deadband_absolute'
+    limits: [0.021, 0.041]
+  
+  BS_X_standard:
+    check_type: 'deadband_absolute'
+    limits: [0.011, 0.021]
+  BS_Y_standard:
+    check_type: 'deadband_absolute'
+    limits: [0.021, 0.041]
+  
+  BS_X_low_resolution:
+    check_type: 'deadband_absolute'
+    limits: [0.011, 0.021]
+  BS_Y_low_resolution:
+    check_type: 'deadband_absolute'
+    limits: [0.021, 0.041]
+
+# Z Position Assessments
+  BS_Z_high_resolution:
+    check_type: 'deadband_absolute'
+    limits: [0.05, 0.1]
+  
+  BS_Z_standard:
+    check_type: 'deadband_absolute'
+    limits: [0.05, 0.1]
+  
+  BS_Z_low_resolution:
+    check_type: 'deadband_absolute'
+    limits: [0.05, 0.1]

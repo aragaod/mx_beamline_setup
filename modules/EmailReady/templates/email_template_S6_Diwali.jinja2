@@ -1,0 +1,49 @@
+A bright and happy Diwali to you!
+
+The {{beamline}} is shining brightly, ready to illuminate your science. You can connect via NX to begin the celebration.
+
+### A Joyous Occasion
+
+**Date:** {{ human_date }}
+
+The instrument is ready for a prosperous and successful experiment.
+
+### A Message of Light
+
+Please check the GDA "Messages" menu for important updates.
+
+### Auspicious Settings
+
+  - Energy: 13000 eV
+  - Beam Size: 30x20 microns (HxV)
+  - Collection Protocol: 'Set target dose'. May this method bring brightness to your results and protect your samples from the darkness of radiation damage.
+
+### A Dazzling Performance
+
+The beam is shining with remarkable brilliance! {% if test_data_available %}Our {{ test_sample }} test data is dazzling, with an Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}, promising a joyous outcome.{% else %}The instrument is glowing, ready to help good data triumph over noise.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your Diyas (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} beautiful pucks are arranged like diyas in the robot dewar.
+  - Puck Names: {{ puck_info.puck_names | join(', ') }}
+  - Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Ready for the Festival
+
+Your samples are ready to shine brightly in the beam.
+{% endif %}
+
+### Sharing the Light
+
+When your session is complete, please check for the next user. If no one has arrived, pass the baton to our 'udc' system to keep the light burning.
+
+### Help is Here
+
+To help good triumph over any technical issues, our Experimental Hall Coordinators (EHCs) are available.
+
+Wishing you a successful experiment,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

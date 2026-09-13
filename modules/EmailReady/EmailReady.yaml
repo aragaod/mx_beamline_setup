@@ -1,0 +1,99 @@
+extra_tips:
+  - "Remember to take detailed notes during your experiment. They are invaluable for data analysis, troubleshooting, and your final publication."
+  - "Need more information? The complete [Beamline Manual](https://example.org/manual.html) has detailed documentation."
+  - "For any beamline or facility issue outside of core hours, contact the Experimental Hall Coordinators (EHCs). They are available 24/7 to get you the right support."
+  - "Taking over from a previous group? Always check the beamline settings (e.g., energy, beam size) to ensure they match your experiment's requirements."
+  - "Plan how you will manage your data *before* your experiment ends. Organising your files now will save you a lot of time later."
+  - "Your Local Contact (LC) is your primary source of scientific support. Don't hesitate to discuss your experimental strategy and any issues with them."
+  - "Experiencing issues with GDA? A restart of the GDA client often resolves common problems and is a great first troubleshooting step."
+  - "A successful experiment starts before you arrive. Double-check that your samples have been logged in ISPyB and that your experimental plan is up to date."
+  - "If the beamline is idle (e.g., during lunch or at the end of your session), please pass the baton to the UDC client to run queued collections."
+  - "No beam after a facility dump? First, check that the Front End shutter is open in the GDA top bar, then try Tools > Hardware > Quick Re-align."
+  - "Is the Open Shutter button greyed out after a hutch intervention? Remember to reconnect the robot on the GDA sample tab."
+  - "For best results when screening samples, we recommend collecting a small 15-degree dataset instead of using the older 3 images screening tab."
+  - "If a data collection hangs, try pressing Abort in the Command Queue, then Play, followed by a Quick Re-align from the Tools > Hardware tab. Check first that there is beam in the facility first, of course (http://dls.mx/beam)"
+  - "With the new undulator, old exposure times are no longer valid. Use the Set Target Dose option in GDA to accurately control radiation damage."
+  - "Using energies above 19 keV? Be aware of lower detector efficiency. For routine high-energy experiments, consider our sister beamlines I24 or VMXm."
+  - "To recentre your sample at a non-zero chi or phi angle, you may need to use the X-ray centring tool."
+  - "To keep us funded, please remember to fully acknowledge the MX beamlines. Check dls.mx/credit for more details on crediting us."
+
+email_styles:
+  - id: 'standard'
+    description: 'Standard: A balanced, standard email.'
+    template: 'email_template_A.jinja2'
+  - id: 'formal'
+    description: 'Formal: For senior scientists.'
+    template: 'email_template_B.jinja2'
+  - id: 'industrial'
+    description: 'Industrial: A professional, service-oriented template for clients.'
+    template: 'email_template_F_Industrial.jinja2'
+  - id: 'student'
+    description: 'Student: Geared towards a PhD student audience.'
+    template: 'email_template_C.jinja2'
+  - id: 'concise'
+    description: 'Concise: The shortest version with just data tables.'
+    template: 'email_template_D.jinja2'
+  - id: 'seasonal_automatic'
+    description: 'Seasonal: An email that matches the current time of year.'
+    type: 'seasonal_choice'
+  - id: 'casual'
+    description: 'Casual: An informal version with some jokes.'
+    template: 'email_template_E.jinja2'
+  - id: 'themed_random'
+    description: 'Themed (Random): A randomly selected fun theme.'
+    type: 'random_choice'
+    templates:
+      - 'email_template_E2.jinja2'   # Star Wars Theme
+      - 'email_template_E3.jinja2'   # Star Trek Theme
+      - 'email_template_E4.jinja2'   # The Matrix Theme
+      - 'email_template_E5.jinja2'   # Mad Max Theme
+      - 'email_template_E6.jinja2'   # The Lion King Theme
+      - 'email_template_E7.jinja2'   # Marvel (Avengers) Theme
+      - 'email_template_E8.jinja2'   # DC (Justice League) Theme
+      - 'email_template_E9.jinja2'   # Lord of the Rings Theme
+      - 'email_template_E10.jinja2'  # Harry Potter Theme
+      - 'email_template_E11.jinja2'  # Pirates Theme
+      - 'email_template_E12.jinja2'  # Indiana Jones Theme
+      - 'email_template_E13.jinja2'  # Nature Documentary Theme
+      - 'email_template_E14.jinja2'  # Lewis Carroll Theme
+      - 'email_template_E15.jinja2'  # George Orwell Theme
+      - 'email_template_E16.jinja2'  # Kafkaesque Theme
+      - 'email_template_E17.jinja2'  # Shakespeare Theme
+
+seasonal_templates:
+  # The code will check this list from top to bottom and use the FIRST match it finds.
+  # Note: For festivals with variable dates (Lunar New Year, Easter, Diwali), these
+  # are approximate ranges and may need occasional adjustment.
+  - name: 'WinterFestive'
+    file: 'email_template_S1_Winter.jinja2'
+    date_ranges: [[12, 1, 12, 31], [1, 1, 1, 7]] # Dec 1st - Jan 7th
+  - name: 'LunarNewYear'
+    file: 'email_template_S2_LunarNewYear.jinja2'
+    date_ranges: [[1, 25, 2, 15]] # Approx range for late Jan / early Feb
+  - name: 'SpringEaster'
+    file: 'email_template_S3_Spring.jinja2'
+    date_ranges: [[3, 20, 4, 30]] # First day of Spring to end of April
+  - name: 'Summer'
+    file: 'email_template_S4_Summer.jinja2'
+    date_ranges: [[6, 1, 8, 31]] # June, July, August
+  - name: 'AutumnHalloween'
+    file: 'email_template_S5_Autumn.jinja2'
+    date_ranges: [[10, 15, 11, 10]] # Mid-Oct to after Bonfire Night
+  - name: 'Diwali'
+    file: 'email_template_S6_Diwali.jinja2'
+    date_ranges: [[10, 20, 11, 15]] # Approx range for Oct/Nov
+  - name: 'AustraliaDay'
+    file: 'email_template_S7_AustraliaDay.jinja2'
+    date_ranges: [[1, 24, 1, 28]] # Around Jan 26th
+  - name: 'StDavidsDay'
+    file: 'email_template_S8_StDavidsDay.jinja2'
+    date_ranges: [[2, 27, 3, 3]] # Around Mar 1st
+  - name: 'StPatricksDay'
+    file: 'email_template_S9_StPatricksDay.jinja2'
+    date_ranges: [[3, 15, 3, 19]] # Around Mar 17th
+  - name: 'StAndrewsDay'
+    file: 'email_template_S10_StAndrewsDay.jinja2'
+    date_ranges: [[11, 28, 12, 2]] # Around Nov 30th
+  # FALLBACK - This MUST be the last item in the list.
+  - name: 'General'
+    file: 'email_template_S11_General.jinja2'

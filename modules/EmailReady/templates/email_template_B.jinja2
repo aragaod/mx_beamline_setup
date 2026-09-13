@@ -1,0 +1,54 @@
+Dear User,
+
+Please find below pertinent information concerning your forthcoming scheduled beamtime.
+
+### Beamline {{beamline}}: Commencement of Scheduled Session
+
+**Date:** {{ human_date }}
+
+This communication is to confirm that the {{beamline}} beamline has been fully prepared and will be operational for the scheduled commencement of your experiment. Remote connection via NX for your experiments will be available from your designated start time.
+
+### Important Information
+
+We recommend a review of the "Messages" menu within the GDA interface for any pertinent operational updates.
+
+### Default Beamline Parameters
+
+The standard instrument configuration is set as follows:
+    - Default & recommended energy: 13000 eV
+    - Default beam dimensions: 30x20 microns (HxV)
+   - Default data collection mode: Set target dose. Further details on dose-aware data collection are available on our website. Utilising this mode is the standard protocol to minimise absorbed dose and thereby reduce the potential for sample degradation and resultant structural artefacts.
+
+### Beam Performance Assessment
+
+The beam is demonstrating excellent stability. Standard alignment and centre of rotation calibrations have been completed without issue. {% if test_data_available %}To provide an indication of its quality, our validation data collection on {{ a_test_sample }} crystal yielded an Rmeas of {{rmeas_lowres}}% in the lowest-resolution bin and an ISa (I/sigma asymptotic) of {{ISa}}, utilising 1.5 MGy for 360 degrees at 500Hz. The instrument is, therefore, in optimal condition for your experiments.{% else %}The instrument is in excellent condition and ready for your experiments.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Sample Loading for Proposal: {{ puck_info.proposal }}
+
+We wish to inform you that {{ puck_info.puck_names | length }} puck(s) have been loaded into the robotic dewar for your experiment.
+  - Puck Identifiers: {{ puck_info.puck_names | join(', ') }}
+  - Robot Storage Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Sample Loading
+
+Your designated samples have been loaded into the robotic dewar. 
+{% endif %}
+
+### Session Handover Protocol
+
+Please adhere to the established protocol for beamline handovers to ensure a seamless transition between user groups. Should the Unattended Data Collection (UDC) system be active at the start of your session, you are requested to acquire the control baton via GDA.
+
+Upon conclusion of your session, please ascertain if the subsequent user group is prepared to commence. In their absence, the standard procedure is to transfer the baton to the 'udc' user prior to unloading your samples. The automated system will then manage sample unloading.
+
+### Technical Support
+
+For support required outside of standard operational hours, please contact the Experimental Hall Coordinators (EHCs).
+
+We extend our best wishes for a successful experimental session.
+
+Sincerely,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

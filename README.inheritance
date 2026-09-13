@@ -1,0 +1,9 @@
+Diagram of subclassing on this application. 
+
+base/CONFIG --> reads config file and setups up logging
+	base/Modules
+		modules/BeamCentre
+		modules/RotationAxis
+		...
+	base/Application
+		beamlinesetup.py

@@ -1,0 +1,50 @@
+Wake up... The Matrix has you.
+
+The {{beamline}} construct is loaded and will be ready for your mind to enter at the designated time. A remote connection hardline (NX) will be available.
+
+### Entering the Construct
+
+**Date:** {{ human_date }}
+
+Listen to me. We don't have much time. The beamline is ready.
+
+### A Message from the Oracle
+
+I'd ask you to check the GDA "Messages" menu, but you're not here to make the choice. You've already made it. You're here to understand *why* you made it.
+
+### The Rules of the Construct (Default Conditions)
+
+Some of these rules can be bent. Others can be broken.
+  - Energy Level: 13000 eV
+  - Residual Self Image (Beam Size): 30x20 microns (HxV)
+  - Data Protocol: 'Set target dose'. Remember, this choice is crucial. The 'blue pill' is a safe dose, giving you the real structure. The 'red pill' is too much dose; you risk radiation damage, creating a structure that is just a fabrication of the Matrix—a map that doesn't match reality.
+
+### Agent Smith Detection
+
+The system is running with exceptional speed and precision. {% if test_data_available %}A simulation on {{ a_test_sample }} crystal demonstrated its power, showing a {{rmeas_lowres}}% Rmeas and an ISa of {{ISa}}. No one has ever done something like that. {% else %}The system is stable and free from any rogue agents.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Loading the Training Program (Proposal: {{ puck_info.proposal }})
+
+We have loaded {{ puck_info.puck_names | length }} programs for you.
+  - Program Names: {{ puck_info.puck_names | join(', ') }}
+  - File Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Loading Programs
+
+Your sample pucks are loaded into the construct's loading bay (the robot dewar) and are ready to run.
+{% endif %}
+
+### Operator? Get me an Exit!
+
+When your time is up, it's time to find an exit. Check for the next operative. If the line is clear (no one at the phone booth), transfer the connection to 'udc' *before* you extract your programs. This is the only way.
+
+### I Need Guns. Lots of Guns. (Support)
+
+If you need an operator in the middle of the night, contact the Experimental Hall Coordinators (EHCs).
+
+There is no spoon, only good data.
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

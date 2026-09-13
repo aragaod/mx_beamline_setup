@@ -1,0 +1,96 @@
+WP1_Label_1_Title: "SampleLoad_WZ"
+WP1_Label_1_Text: |
+  <b>*Robot load and checks*</b><br>
+  <ol>
+    <li><b>Samples removal</b><br>
+        Reminders:<br>
+      <ul>
+        <li>Do not remove UDC pucks that have not been collected. Be careful if screen & collect!</li>
+        (use <a href="http://logistics.example.org/autocollect.html">http://logistics.example.org/autocollect.html</a>)
+        <li>Remember to check pucks and scan dewar checked upon returning pucks to user transport dewars</li>
+      </ul>
+    </li>
+    <li><b>Sample loading</b><br>
+        Reminders:<br>
+      <ul>
+        <li> Check here to find scheduled user dewars and pucks to load</li>
+        (<a href="http://logistics.example.org/pucks.html">http://logistics.example.org/pucks.html</a>)<br>       
+        <li>Leave schedule user dewars in the trolley</li>
+        <li>Leave UDC user dewars in the floor marked area</li>
+        <li>After loading remember to take a picture of the dewar contents (inside hutch)</li>
+        <li>Update JSON (for non UDC pucks): </li>
+        <br>
+        - directly edit <br>
+        <code>/path/to/{BEAMLINE}/etc/proposal_positions.json</code>
+        <br><br>
+        or in alternative run the script that helps<br><br>
+        <code>/path/to/binaries/writeJSONFile.sh</code><br>
+      </ul>
+    </li>
+  </ol>
+  <br>
+  <b>*Gathering: Dewar Picture, JSON file and Loaded pucks per visit</b><br>
+  Before pressing next make sure you have
+  <ul>
+    <li>Taken a robot dewar picture inside of the hutch</li>
+    <li>Updated the proposal_positions.json file</li>
+  </ul>
+  When you are ready, please click 'NEXT'. Nothing will move in the beamline but a picture will be shown<br>
+  Full editable instructions in documentation:<br><br>
+  <a href="https://wiki.example.org/display/SampleLoad">https://wiki.example.org/display/SampleLoad</a>     
+
+WP2_Label_1_Title: "SampleLoad_WZ"
+WP2_Label_1_Text: |
+
+  * NOTE: if you are not happy with the image you can go back to the hutch
+   to take new picture and can click 'BACK' here to gather the picture again.
+
+  * Once you are happy to store the image and press 'FINISH'. 
+
+report_table_title: "Robot Dewar contents"
+json_file_location: "/dls_sw/{BEAMLINE}/etc/proposal_positions.json"
+
+blocked_positions_warning:
+  title: "Robot Blocked Positions Detected"
+  message: |
+    Attention: There are blocked positions in the robot dewar.
+
+    Please check them if you are loading/unloading.
+
+    If you swap pucks for one of the blocked positions, use Jython to remove the blocked positions:
+    1. Check: sc.getBlockedPositions()
+    2. Remove: sc.unblockPosition(puck, sample)
+
+
+json_file_age_check:
+  enabled: True
+  max_age:
+    unit: hours  # Can be 'days', 'hours', 'minutes', or 'seconds'
+    value: 12
+image_age_check:
+  enabled: True
+  max_age:
+    unit: hours  # Can be 'days', 'hours', 'minutes', or 'seconds'
+    value: 12
+    
+width: 850
+height: 1050
+
+# What the report says when this module was not run (F1).
+#
+# It lives here rather than in CreateReport because it is knowledge about *this*
+# module - why skipping it matters - and someone working on this module should
+# not have to edit the reporting module to change its own wording. CreateReport
+# reads it at render time, the same way it reads parameter_notes.
+#
+# `severity` is `critical` or `warning`. Say why this check matters on its own
+# terms; do not rank it against the others, which reads as permission to skip
+# them.
+not_run:
+  severity: warning
+  title: Sample Load
+  message: >-
+    There is no record of what was in the robot dewar today, and no dewar
+    picture. If a sample is later reported missing or mounted from the wrong
+    position, that record is what makes it possible to say what was actually
+    loaded, and the puck list is also what the user email is built from.

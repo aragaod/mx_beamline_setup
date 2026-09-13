@@ -1,0 +1,49 @@
+Hark, good scientist! A missive for thee!
+
+The stage is set upon the world of {{beamline}}, and all is prepared for thy performance. Pray, connect thou via the portal we call NX at the appointed hour, for the play's the thing.
+
+### A Prologue from the Chorus
+
+**Date:** {{ human_date }}
+
+The instrument is ready; the scene is prepared.
+
+### Heed These Words
+
+Pray, attend the GDA "Messages" menu, lest thy plot go awry for want of a simple notice.
+
+### The Alchemist's Settings (Default Conditions)
+
+  - The very fire of the heavens (Energy): 13000 eV
+  - As sharp as a serpent's tooth (Beam Size): 30x20 microns (HxV)
+  - To burn, or not to burn, that is the question. Prithee, use 'Set target dose' to avoid the slings and arrows of outrageous radiation damage.
+
+### How Now, the Beam? (Beam Performance)
+
+Hark, what light through yonder window breaks? 'Tis the beam, and it performs most admirably! {% if test_data_available %}Our test upon {{ a_test_sample }} crystal did yield an Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}. Such sights will make us mortals fools.{% else %}The instrument is sound of wind and limb. All the world's a stage, and it is ready for its players.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### The Players Take the Stage (Proposal: {{ puck_info.proposal }})
+
+Thy {{ puck_info.puck_names | length }} pucks, thy precious players, have taken their place upon the stage (the robot dewar).
+  - The Dramatis Personae: {{ puck_info.puck_names | join(', ') }}
+  - Their Positions: {{ puck_info.locations | join(', ') }}
+{% else %}
+### The Players Await
+
+The dramatis personae (thy pucks) are assembled in the wings, awaiting their cue.
+{% endif %}
+
+### The Play's Conclusion (Handover)
+
+When thy scene is done, look for the next player to take the stage. If the theatre be empty, pass thy baton to 'udc' the prompter, ere you make your exit. Parting is such sweet sorrow.
+
+### Cry 'Havoc!' (Support)
+
+Shouldst thou find thyself in a tempest, cry 'Havoc!' and let slip the dogs of war—or simply contact the Experimental Hall Coordinators (EHCs) for aid.
+
+Thine in the pursuit of knowledge,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

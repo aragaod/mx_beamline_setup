@@ -1,0 +1,18 @@
+WP1_Label_1_Title: "InitialTests_WZ"
+WP1_Label_1_Text: |
+  * Please check that this experiment is authorised in the UAS or that you have a form posted outside. 
+
+  * If users are local make sure you get them to sign.
+
+  * Check that you have identified all the dewars you require for your setup
+
+    https://logistics.example.org/
+
+WP2_Label_1_Title: "InitialTests_WZ"
+WP2_Label_1_Text: |
+  * Remember to update the GDA message 
+
+  You can use:
+  gedit /dls_sw/{BEAMLINE}/etc/motd
+
+  for this. 

@@ -1,0 +1,82 @@
+WP_Window_Title: "Beam align to Crosshair Module"
+WP1_Label_1_Title: "AlignBeam_WZ"
+WP1_Label_1_Text: |
+  <b>Beamline EPICS Checks</b>
+  <ul>
+    <li>Check all collimation table real motors are at ~0.0 mm.</li>
+    <li>Check S4 X and Y slit gaps are &ge; 0.5 mm.</li>
+  </ul>
+  <br>
+  <b>Beam in Crosshairs QC</b>
+  <ol>
+    <li>Move <b>Scintillator IN</b> and turn off backlight.</li>
+    <li>In the GDA Jython console, run:<br>
+        <span style="font-family: monospace; color: #000080; font-size: 90%;">import auto_oav_centring</span><br>
+        <span style="font-family: monospace; color: #000080; font-size: 90%;">auto_oav_centring.blueapi_find_beam_centres()</span>
+    </li>
+    <li>Run <span style="font-family: monospace; color: #000080; font-size: 90%;">auto_oav_centring.overlay_crosshair_show()</span> to display the new crosshair (it will look slightly blurred) alongside the old one.</li>
+    <li>At <b>all zoom levels</b>, use the GDA mouse click to match the old crosshair to the new one.<br>
+        <i>(Tip: Your eyes might need a slight increase in transmission to see clearly, but don't increase it a lot.)</i>
+    </li>
+    <li>Run <span style="font-family: monospace; color: #000080; font-size: 90%;">auto_oav_centring.overlay_crosshair_hide()</span> to clear the calculated overlay.</li>
+    <li>Click <b>NEXT</b> to take a series of inspection images.</li>
+  </ol>
+  <p><i>Alternative (Old Method):</i> If you prefer not to use the auto-centring script, skip steps 2 to 5. Set a reasonable transmission and manually update the crosshair at all zoom levels.</p>
+  <p>Full instructions: <a href="https://wiki.example.org/display/Beamline+startup+instructions">Beamline Documentation</a></p>
+
+WP2_Label_1_Title: "AlignBeam_WZ"
+WP2_Label_1_Text: |
+  <ul>
+    <li><b>NOTE:</b> If you are not happy with the crosshairs, click <b>BACK</b> to repeat the alignment and re-collect images.</li>
+    <li>Once everything is spot on, move the <b>Scintillator OUT</b> and press <b>FINISH</b>.</li>
+  </ul>
+
+report_table_title: "Beam Alignment Parameters"
+
+width: 800
+height: 600
+  
+    
+    
+display_configuration: "/dls_sw/{BEAMLINE}/software/gda_versions/var/display.configuration"
+
+# Parameters that are stored and assessed but kept out of the report table and
+# the eLog post. Everything written to redis used to be rendered, so there was no
+# way to record something for later analysis without putting it in front of staff
+# every morning.
+#
+# Crosshair_positions holds where the crosshair sat at each zoom level, read from
+# display.configuration. It is wanted for correlating crosshair movement against
+# the machine steering and beamstop realignment question, and it has no history -
+# it starts accumulating from the first run after this is deployed.
+#
+# Beamline-independent: the parameter name is the same everywhere, even though
+# which zoom levels exist is not.
+hidden_parameters:
+  - Crosshair_positions
+  # Whether there was beam on the scintillator. Assessed and logged, but not
+  # shown: the image makes it obvious to anyone looking at it, and three more
+  # rows saying "Open" every morning would be noise. They earn their place by
+  # stopping the module when they are wrong, not by being read.
+  - Scintillator_Y
+  - Endstation_shutter
+  - Fast_shutter
+
+# What the report says when this module was not run (F1).
+#
+# It lives here rather than in CreateReport because it is knowledge about *this*
+# module - why skipping it matters - and someone working on this module should
+# not have to go and edit the reporting module to change its own wording.
+# CreateReport reads it at render time, the same way it reads parameter_notes.
+#
+# `severity` is `critical` or `warning`. Say why this check matters on its own
+# terms; do not rank it against the others, which reads as permission to skip
+# them.
+not_run:
+  severity: critical
+  title: Align Beam
+  message: >-
+    For data quality it is very important that the beam position and the
+    centre of rotation are in the same place in space. Adjusting the
+    crosshair and then following it with a rotation axis check is a step
+    that should not be missed.

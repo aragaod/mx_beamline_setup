@@ -1,0 +1,94 @@
+modules:
+  CreateDirectories:
+    widget2update: CB
+    criteria2expire:
+      - 18
+      - hour
+    needs_folder_to_write: No
+  InitialChecks:
+    widget2update: CB
+    criteria2expire:
+      - 2
+      - hour
+    needs_folder_to_write: No
+  RemoteAccess:
+    widget2update: CB
+    criteria2expire:
+      - 2
+      - hour
+    needs_folder_to_write: No
+  SampleLoad:
+    widget2update: CB
+    criteria2expire:
+      - 16
+      - hour
+    needs_folder_to_write: Yes
+  BeamlineMessages:
+    widget2update: CB
+    criteria2expire:
+      - 4
+      - hour
+    needs_folder_to_write: No
+  AlignBeam:
+    widget2update: DE
+    criteria2expire:
+      - 8
+      - hour
+    needs_folder_to_write: Yes
+  BeamstopAlignment:
+    widget2update: CB
+    criteria2expire:
+      - 18
+      - hour
+    needs_folder_to_write: Yes
+  RotationAxis:
+    widget2update: DE
+    criteria2expire:
+      - 8
+      - hour
+    needs_folder_to_write: Yes
+  TestCrystal:
+    widget2update: DE
+    criteria2expire:
+      - 16
+      - hour
+    needs_folder_to_write: Yes
+  CreateReport:
+    widget2update: CB
+    criteria2expire:
+      - 2
+      - hour
+    needs_folder_to_write: Yes
+  EmailReady:
+    widget2update: CB
+    criteria2expire:
+      - 12
+      - hour
+    needs_folder_to_write: Yes
+  Close:
+    widget2update: CLOSE
+    needs_folder_to_write: No
+    criteria2expire:
+      - 0
+      - second
+redis_hash:
+  expiry: 5184000
+  key: '{BEAMLINE}:BeamlineSetup:hash'
+logging:
+  formatters:
+    f:
+      format: '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+  handlers:
+    h:
+      class: logging.StreamHandler
+      formatter: f
+      level: 10
+  root:
+    handlers:
+    - h
+    level: 10
+  version: 1
+nx_machines:
+  bl01:
+    - bl01-ws001.example.org
+    - bl01-ws002.example.org

@@ -1,0 +1,110 @@
+# i04 configuration for RotationAxis.
+#
+# The file next to this one, RotationAxis.yaml, holds everything that is the same on
+# every beamline: what the check is, the wizard text, the report layout. This
+# file holds what is true only on i04 - EPICS addresses, instrument paths
+# and the thresholds, which are i04 physics.
+#
+# Another beamline adds RotationAxis.<ID>.yaml beside these two. It is merged over the
+# shared file, so it need only state what differs; a key set to null is removed
+# entirely, which is how a beamline without a given device drops the check.
+
+# The popup that warns the staff member during the wizard. It reads the same
+# threshold as the Smargon_home rule below, which is the one the report shows.
+# These were 6 hours here and [8, 18] there until 2026-08-31, so between 6 and 8
+# hours the popup warned while the report said good.
+smargon_home_age_check:
+  enabled: True
+  max_age:
+    unit: hours
+    value: 8
+ 
+PVs:
+  BL04I-MO-GONIO-01:
+    GONP_Y: Y.RBV
+    GONP_X: X.RBV
+    GONP_Z: Z.RBV
+
+  BL04I-MO-SGON-01:
+    STUB_X: X_STUB_OFFSET_RBV
+    STUB_Y: Y_STUB_OFFSET_RBV
+    STUB_Z: Z_STUB_OFFSET_RBV
+    Smargon_home: HOMESTATUS_MSG
+
+# PVs whose value is genuinely text - see the note in RotationAxis.set_PVs.
+# Smargon_home holds a formatted timestamp ('2026-07-04 08:54'), which the
+# time_since check parses, so it must stay a string. The stub and goniometer
+# positions are numbers and are read raw.
+string_pvs:
+  - Smargon_home
+
+# Assessment Rules
+assessment_rules:
+  Rotation_axis_eccentricity_px:
+    # How far the pin tip sits from the rotation axis, from the four images the
+    # module already collects (B4). Rotating omega by 180 degrees puts an
+    # off-axis point on the other side of the axis, so the axis is the midpoint
+    # of the two tips and the eccentricity is half their separation.
+    #
+    # Not the distance from the crosshair. A tip 3 px above the crosshair at
+    # omega 0 and 3 px below at 180 is perfectly centred; it is the crosshair
+    # that is elsewhere. Measuring against the crosshair would call that
+    # misaligned.
+    #
+    # **These limits rest on five measurements and should be revisited.** They
+    # come from the only original frames that survived - one run each from five
+    # staff, recovered from /var/tmp on i04-ws001 - which now give 0.59, 1.07,
+    # 1.51, 1.99 and 2.89 px (they read 0.79 to 2.26 before B9 replaced the
+    # apex y with the centreline; the estimator changed, not the pins). The 108 stored montages cannot be used to set them: the
+    # crosshair is drawn exactly where the tip is and masking it destroys the
+    # feature, which inflated the same morning from 0.79 px to 3.72.
+    #
+    # So good is set a little above the worst of the five, and warning at double
+    # it. Once a few weeks of runs have stored their originals, re-derive both
+    # from real data - dev/review_tip_detection.py plots what the detector is
+    # doing so the numbers can be judged rather than assumed.
+    #
+    # Precision, after B9: the y is taken from the needle's centreline fitted
+    # over 200 columns, whose standard error is about 0.02 px - so the number is
+    # no longer limited by the estimator, and the decimals now mean something.
+    # What remains uncertain is the *band*, not the measurement: five pins is a
+    # thin basis for deciding what counts as well aligned.
+    #
+    # In pixels, not microns. At 7.5x a pixel is thought to be roughly 0.5-2 um,
+    # but the calibration is not in this repository.
+    check_type: 'less_than'
+    limits: [3.0, 5.0] # [good_if_below, warning_if_below]
+  # Stubs: Check change from last setup (Deadband)
+  STUB_X:
+    check_type: 'deadband_absolute'
+    limits: [0.001, 0.003]
+  STUB_Y:
+    check_type: 'deadband_absolute'
+    limits: [0.001, 0.003]
+  STUB_Z:
+    check_type: 'deadband_absolute'
+    limits: [0.001, 0.003]
+
+  # GONP_Y: Change from last setup
+  GONP_Y:
+    check_type: 'deadband_absolute'
+    limits: [0.003, 0.0100]
+
+  # GONP_Z: Change from last setup (History check)
+  GONP_Z:
+    check_type: 'deadband_absolute'
+    limits: [0.003, 0.0100]
+
+  # GONP_X: Absolute value should be close to zero
+  # Range: [-0.0001, 0.0001] is good. 
+  # Warning if outside good but inside [-0.0005, 0.0005]
+  GONP_X:
+    check_type: 'in_range'
+    limits: [-0.00010, 0.00010, -0.00050, 0.00050]
+
+  # Smargon Home: Time since last home
+  Smargon_home:
+    check_type: 'time_since'
+    limits: [8, 18] # Hours
+    format: "%Y-%m-%d %H:%M"
+zoom_pv: "BL04I-EA-OAV-01:FZOOM:MP:SELECT"

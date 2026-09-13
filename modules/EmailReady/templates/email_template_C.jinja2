@@ -1,0 +1,54 @@
+Hi there,
+
+Here's a quick update with some useful info for your upcoming beamtime!
+
+### Getting Started on {{beamline}}!
+
+**Date:** {{ human_date }}
+
+Just to let you know, the {{beamline}} beamline is all set up and will be ready for you right at your start time. This means you'll be all set to connect via NX and begin your experiment as soon as your session begins.
+
+### Heads-Up!
+
+It's always a good habit to check the "Messages" menu in GDA when you start. We post handy updates and reminders in there.
+
+### Default Beamline Settings
+
+We've set the beamline up with our standard conditions, which are a great starting point for most experiments:
+    - Energy: 13000 eV
+    - Beam size: 30x20 microns (HxV)
+   - Data collection mode: 'Set target dose'. If you want to know more about this, just check out the guide on our website! It's a really useful tool to make sure you don't 'burn' your crystals, which helps you get the most accurate structure possible.
+
+### Beam Performance
+
+The beam is looking great today! We've had a smooth run with all the usual calibrations. {% if test_data_available %}To give you an idea, we ran a quick test on {{ a_test_sample }} crystal and got a really nice {{rmeas_lowres}}% Rmeas and an ISa of {{ISa}}. It's a fancy way of saying the machine is working perfectly and you're all set for some great data collection!{% else %}The instrument is in great condition and ready for you to get started.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your Samples for Proposal {{ puck_info.proposal }}
+
+We've loaded your {{ puck_info.puck_names | length }} puck(s) into the robot dewar for you.
+  - Puck Names: {{ puck_info.puck_names | join(', ') }}
+  - They're in locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Your Samples are Ready
+
+We've loaded your pucks into the robot dewar and they're ready to go.
+{% endif %}
+
+### Swapping Over & Using the Automated System (UDC)
+
+When it's time to hand over, please follow the standard protocol. If the automated "Unattended Data Collection" (UDC) system is running when you start, just request the 'baton' in GDA and give it a moment to transfer to you.
+
+At the end of your session, see if the next users are around. If not, or if you finish early, the normal thing to do is pass the baton to the 'udc' user *before* you unload your pucks. The automated system will then take over and handle unloading for you. Don't worry, it's very reliable!
+
+### Need Help?
+
+If you need any support during the night or on the weekend, the Experimental Hall Coordinators (EHCs) are there to help.
+
+Good luck with your experiments, we're rooting for you!
+
+All the best,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

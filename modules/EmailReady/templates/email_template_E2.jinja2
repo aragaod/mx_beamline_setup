@@ -1,0 +1,49 @@
+Dear Jedi Knight of the beam,
+
+A short time from now, in a hutch not so far, far away... the {{beamline}} beamline will be fully operational and ready for your experiments.
+
+### Holocron Transmission (Beamline Status)
+
+**Date:** {{ human_date }}
+
+The beamline is aligned, the shields are down, and you will be able to connect via NX to begin your assault on the diffraction limit.
+
+### Use the Force, Check the Messages
+
+It is your destiny to check the "Messages" menu in GDA. The Force wills it.
+
+### Default Hyperdrive Settings
+
+  - Energy Core: 13000 eV
+  - Targeting Computer (Beam Size): 30x20 microns (HxV)
+  - Attack Pattern: 'Set target dose'. You'll find this targeting solution in the GDA's Data Collection tab. A Jedi uses the Force for knowledge and defense, never for attack. Don't use excessive dose, or you'll be tempted by the Dark Side of radiation damage.
+
+### Is the Death Star Operational?
+
+The station's primary weapon is performing flawlessly. {% if test_data_available %}Our test shot on {{ a_test_sample }} crystal target returned a {{rmeas_lowres}}% Rmeas and an ISa of {{ISa}}. The power of this fully armed and operational battle station is impressive.{% else %}The main laser is aligned and ready to fire at your command.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Transporting Precious Cargo (Proposal: {{ puck_info.proposal }})
+
+We have loaded your {{ puck_info.puck_names | length }} puck(s), containing the secret plans ({{ puck_info.puck_names | join(', ') }}), into the smuggling compartment at locations: {{ puck_info.locations | join(', ') }}.
+{% else %}
+### Precious Cargo Loaded
+
+The assets are on board. Your pucks have been safely stored in the cryogenic hold of the robot dewar.
+{% endif %}
+
+### Passing the Lightsaber
+
+When your session ends, see if the next Jedi has arrived. If not, pass the baton to our astromech 'udc' *before* you ask R2 to unload your pucks. It's our only hope.
+
+### Summoning the Jedi Council
+
+For assistance during the long night, the Experimental Hall Coordinators (EHCs) are your allies.
+
+May the Force (and good diffraction) be with you.
+
+Your friendly neighbourhood Beamline Master,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

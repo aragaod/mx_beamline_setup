@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RemoteAccess_WZ</class>
+ <widget class="QWizard" name="RemoteAccess_WZ">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>587</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>17</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Wizard</string>
+  </property>
+  <widget class="QWizardPage" name="RA_Page_1">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <widget class="QLabel" name="WP1_Label_1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>511</width>
+      <height>371</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>If you have remote users today you should do the NX texts next. 
+ If the users are remote you can press cancel now.</string>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWizardPage" name="RA_Page_2">
+   <widget class="QLabel" name="WP2_Label_1">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>511</width>
+      <height>371</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Check if there are any old java processes from NX sessions that have not been properly closed and are not part of a current visit.
+
+Log in with your BL staff FedID, then open a shell and type:
+&gt; ssh -X yourFedID@i04-ws001
+
+To get a list of nx session use (you will be asked for your password):
+&gt; sudo /usr/NX/bin/nxserver --list 
+
+To terminate an nx session use:
+&gt; sudo /usr/NX/bin/nxserver --terminate {number}
+
+To broadcast a message to all nx sessions:
+&gt; sudo /usr/NX/bin/nxserver --broadcast &quot;your message here&quot;
+
+Use &quot;finger&quot; to find which name is associated to a given FedID.
+&gt; finger {FedID}
+
+You press finished when done!</string>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

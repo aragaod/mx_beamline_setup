@@ -1,0 +1,56 @@
+**Subject: Beamtime Session Confirmation for Proposal {{ puck_info.proposal if puck_info else 'BX-##### '}} on Beamline I04**
+
+Dear User,
+
+This email confirms that Diamond Light Source beamline I04 has been prepared and calibrated for your upcoming session scheduled on **{{ human_date }}**. The instrumentation will be ready for remote connection via NX at your designated start time.
+
+### Operational Status
+
+For your reference, the beamline is configured with the following standard parameters. Please verify they are appropriate for your experiment.
+  - **Energy:** 13000 eV
+  - **Beam Size (HxV):** 30x20 microns
+  - **Recommended Collection Strategy:** `Set target dose`. We strongly advise using this data collection method. Unlike traditional time-based exposures, it delivers a radiation dose by automatically compensating for any fluctuations in machine current or beamline flux. This is the most effective way to ensure data consistency, mitigate radiation damage, and prevent under-exposure.
+
+You may also wish to consult the "Messages" menu in the GDA software for any real-time operational updates.
+
+### Quality Assurance Report
+
+To validate instrument performance, a standard {{ test_sample }} crystal was measured. The key performance indicators are as follows:
+{% if test_data_available %}
+  - **Rmeas (lowest resolution shell):** {{rmeas_lowres}}%
+  - **ISa (I/sigma asymptotic):** {{ISa}}
+These metrics confirm the instrument is performing optimally.
+{%- else %}
+  - The instrument has been successfully calibrated and is performing to specification.
+{%- endif %}
+
+
+{% if puck_info and puck_info.puck_names %}
+### Sample Confirmation
+
+The following {{ puck_info.puck_names | length }} sample puck(s) for proposal **{{ puck_info.proposal }}** have been loaded into the robotic dewar and are ready for automated data collection.
+  - **Puck Identifiers:** {{ puck_info.puck_names | join(', ') }}
+  - **Robot Locations:** {{ puck_info.locations | join(', ') }}
+{% else %}
+### Sample Loading
+
+Your samples have been loaded into the robotic dewar and are ready for data collection.
+{% endif %}
+
+### Support Protocol
+
+For technical support during your session, our on-call team is available 24/7. Please contact the Experimental Hall Coordinators (EHCs) first. They will direct your query to the appropriate specialist to ensure a timely response.
+
+### Session Handover
+
+Please be aware of the standard protocol for session handovers. If no subsequent user group is ready at the conclusion of your time, please pass control to the 'udc' user before unloading your samples to allow for efficient, automated unloading.
+
+We wish you a productive and successful experimental session.
+
+Regards,
+
+{{i04_staff_member}}
+The I04 Beamline Team
+Diamond Light Source
+
+PS: {{ optional_tip }}

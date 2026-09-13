@@ -1,0 +1,49 @@
+And here we are, in the extraordinary environment of the synchrotron.
+
+The magnificent {{beamline}}, a truly remarkable species of scientific instrument, has awoken. It will soon be ready for its daily ritual of discovery. You may begin your observation via the remote hide (NX).
+
+### The State of the Habitat
+
+**Date:** {{ human_date }}
+
+The conditions are perfect. The air is still. A sense of anticipation hangs over the experimental hutch.
+
+### Calls in the Wild
+
+One must always listen for calls from the local guides. Please check the GDA "Messages" menu for any such communications.
+
+### The Laws of Nature (Default Conditions)
+
+  - Natural Energy: 13000 eV
+  - Predator's Focus (Beam Size): 30x20 microns (HxV)
+  - The Circle of Life: 'Set target dose'. Nature teaches us balance. Too much energy can disturb the delicate crystal's ecosystem, leading to irreversible damage.
+
+### A Stunning Display of Power
+
+Remarkable. {% if test_data_available %}In a breathtaking display, the beam strikes the {{ test_sample }} crystal with dazzling precision. The results, an Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}, are a testament to the raw power of this instrument.{% else %}The instrument is calm, poised, and ready to hunt for data.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### The Next Generation (Proposal: {{ puck_info.proposal }})
+
+A new clutch of {{ puck_info.puck_names | length }} puck(s) has been carefully placed in the cryogenic nesting ground.
+  - Specimen Names: {{ puck_info.puck_names | join(', ') }}
+  - Nest Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### The Nest is Occupied
+
+The precious samples are nestled in their cryogenic habitat, awaiting their moment in the light.
+{% endif %}
+
+### The Changing of the Seasons
+
+When your observation period concludes, check for the next researcher. If the territory is vacant, allow the automated systems of 'udc' to resume their natural cycle *before* you retrieve your specimens.
+
+### The Park Rangers
+
+If the delicate ecosystem is disturbed, the local rangers (the Experimental Hall Coordinators or EHCs) are always on hand to restore balance.
+
+And so, the cycle of science continues.
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

@@ -1,0 +1,49 @@
+Greetings, brave adventurer of the Fellowship!
+
+Your quest is set to begin. The path to Mordor is lit, and the {{beamline}} beamline awaits your courage. You may use the Palantír (NX) to connect remotely at the appointed hour.
+
+### A Council of Elrond (Beamline Status)
+
+**Date:** {{ human_date }}
+
+The way is prepared. The instrument is ready.
+
+### A Message on the Wind
+
+Gandalf's advice is to always check the "Messages" menu in GDA before setting out on a journey.
+
+### The Gifts of Galadriel (Default Conditions)
+
+  - Phial of Eärendil (Energy): 13000 eV
+  - Elven Eyesight (Beam Size): 30x20 microns (HxV)
+  - The Path of the Fellowship: 'Set target dose'. One does not simply walk into Mordor with too much dose; it can corrupt even the smallest of crystals.
+
+### The Eye of Sauron (Beam Performance)
+
+The Great Eye is aligned and its gaze is powerful! {% if test_data_available %}A test on a piece of Lembas bread ({{ a_test_sample }} crystal) yielded a fine Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}. The instrument is as sharp as Andúril, Flame of the West!{% else %}The instrument is ready. The board is set, the pieces are moving.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your Precious Cargo (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} precious puck(s) have been brought safely to Rivendell (the robot dewar).
+  - Puck Inscriptions: {{ puck_info.puck_names | join(', ') }}
+  - Their Safe locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### The Ring is Safe
+
+Your pucks have been hidden and are kept secret in the dewar.
+{% endif %}
+
+### Passing the Horn of Gondor
+
+When your part of the quest is done, check if the next member of the Fellowship has arrived. If not, pass the baton to 'udc' the White *before* you retrieve your samples. A wizard is never late, nor is he early, he arrives precisely when he means to.
+
+### Summon the Eagles
+
+Should you require aid when orcs attack, the Experimental Hall Coordinators (EHCs) are your eagles in the sky.
+
+May your path be ever lit,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

@@ -1,0 +1,41 @@
+{
+ "overall": {
+  "d_star_sq_min": 0.8577690400722856,
+  "d_star_sq_max": 0.00034309263734468725,
+  "n_obs": 2122067,
+  "n_uniq": 97636,
+  "multiplicity": 21.7344729403089,
+  "completeness": 88.7769483264987,
+  "i_mean": 41.84075421167944,
+  "i_over_sigma_mean": 11.356538669967437,
+  "r_merge": 0.11014001793135354,
+  "r_meas": 0.11249519374215208,
+  "r_pim": 0.022463976246244192,
+  "r_anom": 0.04097318680690703,
+  "cc_one_half": 0.9994156942719519,
+  "cc_one_half_significance": null,
+  "cc_one_half_critical_value": null,
+  "cc_anom": -0.38306453634695553,
+  "anom_completeness": null,
+  "anom_signal": null,
+  "anom_probability_plot_all_data": null,
+  "anom_probability_plot_expected_delta": null,
+  "delta_i_mean_over_sig_delta_i_mean": null
+ },
+ "d_star_sq_min": [
+  0.11642903771039838,
+  0.18480975883870127
+ ],
+ "d_star_sq_max": [
+  0.0003422352113972524,
+  0.11642903771039838
+ ],
+ "r_meas": [
+  0.05340683046316082,
+  0.0873416826975394
+ ],
+ "cc_one_half": [
+  0.9994699105796339,
+  0.9986121521119967
+ ]
+}

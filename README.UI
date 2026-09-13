@@ -1,0 +1,2 @@
+from PySide2 import QtUiTools 
+self.window = QtUiTools.QUiLoader().load("tree_test.ui") 

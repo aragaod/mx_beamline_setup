@@ -1,0 +1,49 @@
+O frabjous day! Callooh! Callay!
+
+Down the rabbit hole we go! The {{beamline}} is looking quite brillig, and you're invited to the data tea party. You may connect via the Looking-Glass (NX) when the time is right.
+
+### A Message from the White Rabbit
+
+**Date:** {{ human_date }}
+
+Don't be late for this very important date! The beamline is ready.
+
+### Advice from a Caterpillar
+
+Who are YOU? You're the person who should check the GDA "Messages" menu. It's all rather confusing, but you'll get used to it.
+
+### The Mad Hatter's Settings
+
+  - Cheshire Cat Energy: 13000 eV
+  - Vorpal Blade (Beam Size): 30x20 microns (HxV)
+  - The Rule of Six Impossible Things: 'Set target dose'. Don't let your crystal go galumphing into over-exposure. 'Tis a slithy tove that gyres and gimbles in the wabe of radiation damage.
+
+### Beware the Jabberwock!
+
+The beam, with eyes of flame, came whiffling through the tulgey wood! {% if test_data_available %}And burbled as it came! It went snicker-snack, and the {{ test_sample }} data returned a chortling good Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}. The Jabberwock is slain!{% else %}The instrument is prepared. We're all mad here.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your Tumtum Pucks (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} puck(s) are waiting by the Tulgey wood.
+  - Puck Names: {{ puck_info.puck_names | join(', ') }}
+  - Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Down the Rabbit Hole
+
+Your pucks are getting curiouser and curiouser in the dewar.
+{% endif %}
+
+### Changing Places!
+
+When the tea party moves, see if the next guest has arrived. If not, pass the baton to the Dormouse, 'udc', *before* you retrieve your samples.
+
+### Ask the Cheshire Cat
+
+If you're lost and not sure which way to go, ask the Experimental Hall Coordinators (EHCs). They'll grin and point you in the right direction.
+
+It's always data time,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

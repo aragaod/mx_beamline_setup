@@ -1,0 +1,49 @@
+Greetings, intrepid crystal-zapper!
+
+Hold onto your hard hats! Here's the latest intel for your upcoming beamtime adventure.
+
+### Beamline Status
+
+**Date:** {{ human_date }}
+
+Good news! The {{beamline}} beamline has been tamed, polished, and is eagerly awaiting your command. You'll be able to connect via NX and start blasting those crystals right on time.
+
+### Don't Forget!
+
+As per ancient tradition (and good sense), have a peek at the GDA "Messages" menu for any magical incantations or last-minute updates from the beamline wizards.
+
+### The Usual Spells (Default Conditions)
+
+    - Energy Potion: 13000 eV
+    - Shrink Ray (Beam Size): 30x20 microns (HxV)
+   - Collection Spell: 'Set target dose' (more on this dark art on our website). This is the best spell to avoid turning your beautiful crystals into a pile of smoking goop. Use the dose wisely!
+
+### How's the Giant Space Laser?
+
+The photon firehose is behaving beautifully today! {% if test_data_available %}We sacrificed {{ a_test_sample }} crystal to the diffraction gods, and they were pleased, rewarding us with a godly {{rmeas_lowres}} % Rmeas and an ISa of {{ISa}}. So, the instrument is in tip-top shape.{% else %}The instrument is humming along nicely and ready for action.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your Precious Cargo (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} precious puck(s) ({{ puck_info.puck_names | join(', ') }}) have been safely delivered to their cryogenic hotel rooms at locations: {{ puck_info.locations | join(', ') }}.
+{% else %}
+### Samples on Ice
+
+Your pucks are loaded and chilling in the dewar, dreaming of X-rays.
+{% endif %}
+
+### Passing the Torch (or Baton)
+
+When your glorious reign comes to an end, check for the next heir to the beamline throne. If no one's around, pass the ceremonial baton to our trusty robot overlord, 'udc', *before* you retrieve your samples. The robot knows what to do.
+
+### Summoning Help
+
+Should you need assistance in the darkest hours of night or weekend, the Experimental Hall Coordinators (EHCs) are your heroes.
+
+May your diffraction be strong and your resolution high!
+
+Yours in science,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

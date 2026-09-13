@@ -1,0 +1,49 @@
+Greetings from a frosty Diamond Light Source!
+
+The {{beamline}} is shining brighter than a Christmas tree and is ready for your experiment. You can connect via NX to get started.
+
+### A Festive Update
+
+**Date:** {{ human_date }}
+
+The beamline is prepared and the mood is cheerful.
+
+### Checking the List
+
+Before you start, it's wise to check the GDA "Messages" menu (and check it twice!).
+
+### Winter Warmer (Default Conditions)
+
+  - Energy: 13000 eV
+  - Beam Size: 30x20 microns (HxV)
+  - Collection Protocol: 'Set target dose'. Don't get your tinsel in a tangle! This is the best way to ensure your results aren't just a ghost of Christmas past.
+
+### Performance on a Cold Day
+
+The beam is running beautifully. {% if test_data_available %}Our {{ test_sample }} test data is looking more satisfying than a warm mince pie, with an Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}.{% else %}The instrument is stable and ready to go. No snow delays here!{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your Presents (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} puck(s) have been placed carefully under the dewar.
+  - Gift Tags: {{ puck_info.puck_names | join(', ') }}
+  - Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Gifts Delivered
+
+Your pucks have been delivered by our elves and are waiting for you.
+{% endif %}
+
+### Handover Protocol
+
+When your session is over, see if the next user has arrived. If not, pass the baton to 'udc' the reindeer *before* you leave.
+
+### Need a Helping Hand?
+
+Even if you're working on Boxing Day, our EHCs are on hand to bring you some cheer (and technical support).
+
+Happy holidays,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

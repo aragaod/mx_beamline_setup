@@ -1,0 +1,52 @@
+G&#39;day mate! Happy Australia Day from the team at I04.
+
+She'll be right. The {{beamline}} is running better than a roo in the outback and is ready for you. You can connect via NX to get started.
+
+### The Situation
+
+**Date:** {{ human_date }}
+
+Everything's cruisy. The beamline is good to go.
+
+### A Bit of Info
+
+Chuck a look at the GDA "Messages" menu before you kick off.
+
+### The Essentials
+
+  - Energy: 13000 eV
+  - Beam Size: 30x20 microns (HxV)
+  - The Plan: 'Set target dose'. Don't be a galah! Using this will make sure your data is a real beauty.
+
+### How's it Goin'?
+
+Fair dinkum, the beam is on fire! {% if test_data_available %}Our {{ test_sample }} test run was a ripper, with an Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}. You little beauty!{% else %}She's running like a dream. No dramas.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+
+### Your Esky (Proposal: {{ puck_info.proposal }})
+
+We've chucked your {{ puck_info.puck_names | length }} puck(s) in the esky (the robot dewar) to keep 'em cold.
+
+  - Puck Names: {{ puck_info.p_names | join(', ') }}
+  - Locations: {{ puck_info.locations | join(', ') }}
+    {% else %}
+
+### All Set
+
+Your pucks are in the dewar, ready to go. No worries.
+{% endif %}
+
+### Handover
+
+When you're done, see if the next person is ready. If not, pass the baton over to the 'udc' system before you shoot through.
+
+### Got a Problem?
+
+If you find yourself in a bit of a pickle, the EHCs are here to help, mate.
+
+Hooroo,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

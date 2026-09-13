@@ -1,0 +1,47 @@
+Greetings from the Citadel!
+
+My world is fire and crystals. The {{beamline}} War Rig is gassed up and ready to ride the Fury Road. You'll be able to steer it via NX right on time.
+
+### State of the Wastes
+
+**Date:** {{ human_date }}
+
+It is by my hand you will rise from the ashes of this world... and collect your data.
+
+### A Word from the History Men
+
+The GDA "Messages" menu carries the story of the before-times. Heed their words.
+
+### The Law of the Wastes (Default Conditions)
+
+  - Guzzoline Energy: 13000 eV
+  - Thunder-sticks (Beam Size): 30x20 microns (HxV)
+  - The Plan: 'Set target dose' (More details are sprayed in chrome on our website). Don't be a War Boy hooked on Guzzoline, blasting everything in sight. A measured dose gets you to Valhalla; too much and you're just another explosion in the wasteland.
+
+### Shiny and Chrome!
+
+The engine roars! The beam is magnificent! {% if test_data_available %}We ran a test on {{ a_test_sample }} crystal, and it was witnessed! Rmeas: {{rmeas_lowres}}%! ISa: {{ISa}}! We shall ride to Valhalla, shiny and chrome!{% else %}The Rig is tuned. It's a lovely day to collect data!{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### The Precious Aqua-Cola (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} puck(s) of mother's milk ({{ puck_info.puck_names | join(', ') }}) are safe in the tanker at locations: {{ puck_info.locations | join(', ') }}.
+{% else %}
+### The Aqua-Cola is Safe
+
+Your pucks are loaded and ready for the run.
+{% endif %}
+
+### Passing the Wheel
+
+When your run is done, look for the next War Boy. If the coast is clear, give the wheel to the 'udc' War Rig *before* you grab your haul. Do not become addicted to water.
+
+### Sound the War Horn
+
+If you need a hand when the vultures are circling at night, the Experimental Hall Coordinators (EHCs) will ride with you.
+
+WITNESS ME!
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

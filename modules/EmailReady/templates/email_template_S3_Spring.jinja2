@@ -1,0 +1,49 @@
+Spring has sprung at the beamline!
+
+The {{beamline}} is ready to bloom, all set for a fresh start to your experiment. You can connect via NX to get started.
+
+### A Breath of Fresh Air
+
+**Date:** {{ human_date }}
+
+The beamline is prepared and ready for new discoveries.
+
+### Good News
+
+Before you begin, check the GDA "Messages" menu for the latest updates.
+
+### Spring Cleaning (Default Conditions)
+
+  - Energy: 13000 eV
+  - Beam Size: 30x20 microns (HxV)
+  - Collection Protocol: 'Set target dose'. Don't put all your eggs in one basket! Use this method to protect each precious crystal.
+
+### Hopping into Action
+
+The beam is running beautifully. {% if test_data_available %}We've been hunting for good beam performance, and our {{ test_sample }} test data (Rmeas: {{rmeas_lowres}}%, ISa: {{ISa}}) is looking even better than a chocolate egg.{% else %}The instrument is fresh as a daisy and ready to go.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your Easter Basket (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} puck(s) have been carefully placed in the dewar.
+  - Puck Names: {{ puck_info.puck_names | join(', ') }}
+  - Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Ready for the Hunt
+
+Your pucks are hidden safely in the dewar, waiting to be discovered.
+{% endif %}
+
+### Handover
+
+When your session is over, please see if the next user has arrived. If not, pass the baton to our 'udc' system *before* you leave.
+
+### Need a Hand?
+
+If you need to unscramble a problem, the EHCs are ready to hop to it.
+
+All the best,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

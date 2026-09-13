@@ -1,0 +1,95 @@
+# i04 configuration for TestCrystal.
+#
+# The file next to this one, TestCrystal.yaml, holds everything that is the same on
+# every beamline: what the check is, the wizard text, the report layout. This
+# file holds what is true only on i04 - EPICS addresses, instrument paths
+# and the thresholds, which are i04 physics.
+#
+# Another beamline adds TestCrystal.<ID>.yaml beside these two. It is merged over the
+# shared file, so it need only state what differs; a key set to null is removed
+# entirely, which is how a beamline without a given device drops the check.
+
+assessment_rules:
+  # Five rows, five measurements. The report used to carry ten, because
+  # aimless.log is read from inside fast_dp/ and is therefore fast_dp's own
+  # scaling step rather than an independent pipeline - so each Aimless_* row
+  # duplicated a fast_dp number. See V10 in PROGRESS.md.
+  ISa:
+    check_type: 'greater_than'
+    limits: [35, 25] # [good_if_above, warning_if_above]
+  Resolution:
+    # High resolution limit from fast_dp. Was [2.5, 2.0], which is the wrong way
+    # round for a less_than check: good has to be the tighter number, and as
+    # written the warning band was unreachable.
+    check_type: 'less_than'
+    limits: [2.0, 2.5] # [good_if_below, warning_if_below]
+  Aimless_Rmeas_low_res:
+    # The inner (low resolution) shell Rmeas, which is the number ISPyB shows and
+    # the one the wizard text judges on: "Rmeas low resolution <= 3.5 %, <= 3.0 %
+    # is best". Rmeas runs slightly above Rmerge, which these limits were
+    # originally set against, so they may want revisiting.
+    check_type: 'less_than'
+    limits: [0.030, 0.036] # [good_if_below, warning_if_below]
+  CChalf:
+    check_type: 'greater_than'
+    limits: [0.9, 0.7] # [good_if_above, warning_if_above]
+  Completeness:
+    check_type: 'greater_than'
+    limits: [97, 94] # [good_if_above, warning_if_above]
+
+  # --- Per-image diagnostics (F10) -------------------------------------
+  # These look inside the collection. The summary statistics above average over
+  # every image, so a problem confined to part of the sweep does not show there.
+  # All limits below were measured across 55 datasets spanning many dates and
+  # crystals, and are set near the 90th and 99th percentiles of normal.
+  Scale_step_pct:
+    # Largest jump in per-image scale between adjacent 25-image windows.
+    # NOT the deviation from the median: the scale legitimately swings by 16% or
+    # more as absorption changes with rotation, so deviation does not
+    # discriminate. A step does - absorption is smooth, a beam dump is not.
+    # Measured: median 2.4%, p90 4.0%, p99 6.4%.
+    check_type: 'less_than'
+    limits: [4.0, 6.5] # [good_if_below, warning_if_below]
+  Rmerge_worst_batch_ratio:
+    # Worst batch's Rmerge divided by the dataset median, from aimless.log's
+    # per-batch table (batches are ten images, about one degree). This is the
+    # R-factor against rotation angle. Note it is Rmerge, not Rmeas: aimless
+    # reports Rmeas per resolution shell but only Rmerge per batch.
+    # Measured across 57 datasets: median 1.27, p90 2.32, p99 4.77.
+    check_type: 'less_than'
+    limits: [2.0, 3.0] # [good_if_below, warning_if_below]
+  Spot_prediction_sd_px:
+    # How well the prediction model fits the observed spots, worst block.
+    # Rising values mean the detector position, the beam or the crystal moved.
+    # Measured: median 0.60 px, p90 0.78, p99 1.17.
+    check_type: 'less_than'
+    limits: [0.80, 1.20]
+  Goniometer_speed_sd_deg:
+    # Whether omega turned at a constant speed, worst block. If it runs fast or
+    # slow the reflection appears at a different angle than predicted. This is a
+    # rotation SPEED check, not a rotation axis alignment check.
+    # Measured: median 0.11 deg, p90 0.17, p99 0.42.
+    check_type: 'less_than'
+    limits: [0.20, 0.45]
+
+# --- dose (B2b) -----------------------------------------------------------
+#
+# The thresholds themselves live in the shared TestCrystal.yaml, because the
+# 1.5 MGy the module asks for is the protocol and the 30 MGy Garman limit is
+# radiation physics - neither is a property of i04's optics. What is i04's is
+# where the service lives and how far back its arming log is worth reading.
+#
+# The development RADDOSE-3D instance, not production. Production serves GDA
+# continuously and a morning setup has no business adding load to it. Both
+# speak the same API; see base/dose.py.
+dose_api_url: 'http://localhost:8000/api/v1.0'
+
+# How far back to look for this crystal's earlier collections when adding up its
+# lifetime dose. A test crystal is replaced at about 30 MGy, which has been
+# roughly a month of setups, so 60 days covers a crystal's life with room to
+# spare. Reading 60 days of the arming log takes about 1.4 seconds.
+dose_lookback_days: 60
+
+# Skip dose entirely if the service does not answer in this long. The report
+# matters more than the column: a slow API must not hold up a morning.
+dose_timeout_s: 20

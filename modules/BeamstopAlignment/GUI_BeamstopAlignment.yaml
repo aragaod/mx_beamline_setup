@@ -1,0 +1,57 @@
+WP1_Label_1_Title: "BeamStop Alignment start"
+WP1_Label_1_Text: |
+  in GDA
+    *1. using the Data Collection Table Input, right click and select+delete all current data collections
+    right click and load from: 
+    
+    /home/i04user/xml/start_up_test_shots_beamstop_Apr2024.xml
+    
+    *2. On each set start with (1%) before running the full beam one (100%). Click on run selected (NOT run all)
+
+    If necessary su as yourself  and adjust the beamstop position in the file: 
+
+    /dls_sw/{BEAMLINE}/software/daq_configuration/domain/beamlineParameters
+    
+    Once the file is saved repeat the previous data collection
+
+WP2_Label_1_Title: "BeamStop Alignment Results"
+WP2_Label_1_Text: |
+  Analysis complete. 
+  
+  Please check the images below to ensure the beamstop is centering the beam correctly.
+  
+  If satisfied, press <b>FINISH</b> to log this to the electronic logbook.
+
+report_table_title: "Beamstop Positions and other data"
+search_depth: 2000       # How many DB entries to fetch
+search_hours: 2         # Filter data older than this (hours)
+valid_state_ids: [1]     # Only process these state IDs (e.g., 1=Acquire/Armed)
+
+# Plotting Configuration (1x2 Subplot)
+plot_options:
+  montage_type: "diagonal"   # Options: horizontal, vertical, diagonal
+  cmap: "Greys"            # Options: viridis, plasma, inferno, magma, cividis, Greys, Greys_r
+  box_width: 60              # Pixel width of the 2D heatmap window
+  box_height: 70             # Pixel height of the 2D heatmap window
+  threshold: 8               # Low intensity threshold (ignore pixels below this)
+  annotation_threshold: 75   # Show numeric value if pixel average is above this
+  bin_size: 2                # Binning for the numeric annotation
+
+# What the report says when this module was not run (F1).
+#
+# It lives here rather than in CreateReport because it is knowledge about *this*
+# module - why skipping it matters - and someone working on this module should
+# not have to edit the reporting module to change its own wording. CreateReport
+# reads it at render time, the same way it reads parameter_notes.
+#
+# `severity` is `critical` or `warning`. Say why this check matters on its own
+# terms; do not rank it against the others, which reads as permission to skip
+# them.
+not_run:
+  severity: warning
+  title: Beamstop Alignment
+  message: >-
+    No beamstop data was found for today. Maybe the tests were collected
+    with an incorrect file name? If so, please collect them again. Not
+    checking and aligning the beamstop can damage our detector, and can
+    affect data quality as well.

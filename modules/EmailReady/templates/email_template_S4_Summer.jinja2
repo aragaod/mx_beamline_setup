@@ -1,0 +1,49 @@
+Greetings, and welcome to a smashing summer session at the beamline!
+
+The {{beamline}} is ready for its headline slot on the main stage. We hope the sun is shining for you! You can connect via NX now.
+
+### The Weather Forecast
+
+**Date:** {{ human_date }}
+
+The forecast is for excellent data with a high probability of success.
+
+### Event Guide
+
+Please check the GDA "Messages" menu for the latest information and lineup changes.
+
+### Centre Court Conditions
+
+  - Energy: 13000 eV
+  - Beam Size: 30x20 microns (HxV)
+  - Collection Protocol: 'Set target dose'. Don't be left out in the sun for too long! A little dose is perfect, too much can lead to a burn-out.
+
+### A Winning Performance
+
+Game, Set, and Match! {% if test_data_available %}The {{ test_sample }} test data looks like a Centre Court winner, with an Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}. Truly championship-level stuff.{% else %}The instrument is performing perfectly. Less 'muddy field', more 'flawless final set'.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your VIP Passes (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} puck(s) have been given access-all-areas passes to the dewar.
+  - Pass Names: {{ puck_info.puck_names | join(', ') }}
+  - Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Backstage Access
+
+Your pucks are ready in the VIP area (the dewar).
+{% endif %}
+
+### After the Encore
+
+When your set is over, check for the next act. If the stage is free, pass the baton to our 'udc' roadie *before* you pack up your gear.
+
+### The Support Act
+
+Our EHCs are on hand to support you, come rain or shine.
+
+Enjoy the show,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

@@ -1,0 +1,49 @@
+Greetings, Agent.
+
+Your mission, should you choose to accept it, is about to begin. The {{beamline}} facility is powered up and ready for your experiment, under S.H.I.E.L.D. directive. You can access the system via the NX portal at your designated start time.
+
+### S.H.I.E.L.D. Mission Briefing
+
+**Date:** {{ human_date }}
+
+The world is on the brink. Your experiment is critical. The equipment is ready.
+
+### A Message from Director Fury
+
+Check the GDA "Messages" menu. It's need-to-know, and you need to know.
+
+### Quinjet Default Settings
+
+  - Repulsor Energy: 13000 eV (Courtesy of Stark Industries)
+  - Target Lock (Beam Size): 30x20 microns (HxV). As precise as Black Widow's aim.
+  - Collection Protocol: 'Set target dose'. Remember what happened to Banner; you don't want to get too angry with the dose and smash your crystals. Find the right balance.
+
+### Is the Beam Worthy? (Beam Performance)
+
+The Arc Reactor is stable and the beam is worthy! {% if test_data_available %}With a power surge befitting Thor's hammer, our test on {{ a_test_sample }} crystal yielded an Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}. The tech is sound.{% else %}The system is calibrated and perfectly balanced, as all things should be. No signs of Ultron in the code.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Assembling the Team (Proposal: {{ puck_info.proposal }})
+
+We have assembled your team. Your {{ puck_info.puck_names | length }} puck(s), forged from Wakandan Vibranium (or a reasonable facsimile), have been loaded.
+  - Puck Codename(s): {{ puck_info.puck_names | join(', ') }}
+  - Location(s) in the Helicarrier bay: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Assets Assembled
+
+S.H.I.E.L.D. operatives have loaded your containment units (pucks) into the robotic dewar.
+{% endif %}
+
+### Using the Time Stone (Handover)
+
+When your time in this dimension is complete, use the Eye of Agamotto to check for the next user. If you see no one across the timeline, pass control of the facility to our 'udc' AI *before* you retrieve your samples. Don't be a trickster like Loki and just disappear.
+
+### Calling for Backup
+
+If you find yourself in a sticky situation, your friendly neighbourhood Experimental Hall Coordinators (EHCs) are on call to help you out.
+
+Good luck, Avenger.
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

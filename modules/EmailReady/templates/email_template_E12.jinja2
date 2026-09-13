@@ -1,0 +1,49 @@
+Dr. Jones, I presume?
+
+Your next adventure awaits. The secret temple of {{beamline}} is open, and the treasure is within reach. You can start the expedition via your remote link (NX) at the appointed time.
+
+### From the Diary of Henry Jones, Sr.
+
+**Date:** {{ human_date }}
+
+The temple is stable, the traps are (mostly) disarmed.
+
+### Reading the Hieroglyphs
+
+Always check the GDA "Messages" menu. It could be the clue that saves you from a rolling boulder.
+
+### Your Standard Issue Equipment
+
+  - Revolver Power: 13000 eV
+  - Bullwhip Precision (Beam Size): 30x20 microns (HxV)
+  - The Golden Rule: 'Set target dose'. "X" never, ever marks the spot with too much dose. That's how you trigger the poison darts of radiation damage.
+
+### Does the Ark Glow?
+
+The beam belongs in a museum! {% if test_data_available %}We chose... wisely. A test on the Grail itself ({{ a_test_sample }} crystal) yielded {{rmeas_lowres}}% Rmeas and an ISa of {{ISa}}. No Hovitos are in sight.{% else %}The instrument has been calibrated. It's not the years, honey, it's the mileage.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### The Priceless Artifacts (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} artifacts have been placed in the cryogenic altar.
+  - Artifact Names: {{ puck_info.puck_names | join(', ') }}
+  - Temple Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Artifacts Secured
+
+The artifacts are safe from Belloq in the university warehouse (the dewar).
+{% endif %}
+
+### Escaping the Temple
+
+When you've secured the treasure, check for the next adventurer. If you're alone, pass the baton to our trusty sidekick 'udc' *before* you make your escape.
+
+### Call Sallah
+
+If you find yourself in a tight spot with snakes, the Experimental Hall Coordinators (EHCs) can help you out.
+
+Fortune and glory, kid.
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

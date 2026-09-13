@@ -1,0 +1,253 @@
+WP1_Label_1_Title: "TestCrystal_WZ"
+WP1_Label_1_Text: |
+  TEST CRYSTAL STATISTICS QC GATHERING
+
+  * IMPORTANT: This procedure will not collect test crystal dataset, only collect QC data. 
+
+  * 1. Mount the test crystal from the samples tab in GDA. And run collection using the pre-populated parameters.
+
+  * 2. Check that processing pipelines work and statistics are the following.
+        - Rmeas low resolution <= 3.5 % (<= 3.0 % is best)
+        - ISA > 25 (> 30 is best) 
+        * IMPORTANT: If Rmeas low resolution > 3.5% and ISA <=25 crystal is bad or beamline is not right. 
+        Might be worth testing another crystal and reporting on the Observation field under the robot load table. 
+
+  * 3. After FastDP is FINISHED, click *NEXT* and select masterfile for test crystal to gather statistics.
+
+WP2_Label_1_Title: "TestCrystal_WZ"
+WP2_Label_1_Text: |
+  * Data collected and stored for QC
+
+  Thank you, you may press finish now. 
+
+display_configuration: "/dls_sw/{BEAMLINE}/software/gda_versions/var/display.configuration"
+report_table_title: "Test Crystal Diffraction Statistics"
+
+# --- Test sample registry ---------------------------------------------------
+#
+# The wizard text says "insulin", but at least six test proteins are in rotation.
+# Knowing which was mounted matters twice over: it makes the statistics
+# interpretable, and it lets the report and the user email name the sample that
+# was actually used.
+#
+# If indexing assigned the wrong space group then the ISa and Rmeas that follow
+# describe a bad interpretation of the data rather than a bad beamline. That is
+# not hypothetical - measured across the processing archive, thaumatin indexed
+# away from its usual space group on 2 of 236 runs, carbonic anhydrase on 3 of
+# 116, and thermolysin on 1 of 27. On those days the report blamed the beamline.
+#
+# This block and the two rules below are beamline-independent - the proteins are
+# the same anywhere - so they live in the shared file. The i04 override adds the
+# thresholds that are i04 physics, and the two assessment_rules blocks merge.
+#
+# space_group_number is the number the processing pipeline assigns, which is the
+# point group rather than the full space group: fast_dp reports 89 for thaumatin,
+# not the 92 of P41212. That is fine, because the check is consistency with what
+# this sample normally gives, not crystallographic correctness. A run that indexes
+# differently from every other run of the same protein is the one to distrust.
+# All values are medians measured over the processing archive.
+#
+# Aliases are matched against the whole master file path, because the naming is
+# inconsistent - SeThau2/_SeThau2_1_master.h5 puts the name in a directory while
+# TestInsulin_6_1_master.h5 puts it in the filename. Path matching identified 187
+# of 188 stored reports; the single miss was not a test crystal.
+#
+# HOW TO ADD OR EXTEND A SAMPLE
+#
+#   aliases      Plain substrings, not regular expressions, matched
+#                case-insensitively against the lowercased path - so "SeThau",
+#                "sethau" and "SETHAU" all match the single alias "sethau". Add
+#                whatever naming people have actually used over the years; more
+#                aliases only ever make identification more likely. They must stay
+#                unique across samples, and a test enforces that, because an alias
+#                claimed by two proteins would silently identify the wrong one.
+#   protein      The display name. This is what the report shows and what the user
+#                email says, so write it as you want users to read it.
+#   unit_cell    a b c alpha beta gamma. Only a, b and c are compared.
+#
+# An unrecognised sample is not rejected: its space group and cell are still
+# recorded, the report says "not recognised", and nothing is checked against a
+# protein we cannot name. Adding it here is what turns the checks on.
+test_samples:
+  thaumatin:
+    protein: Thaumatin
+    aliases: [thaumatin, thau, sethau]
+    space_group_number: 89 # what fast_dp assigns: the point group
+    space_group: "P 41 21 2" # what dials and 3dii assign: the full group
+    accepted_space_groups: ["P 4 21 2"] # other names that are not wrong
+    #   dials and 3dii both also assign P 4 21 2, the point group with the
+    #   screw axis unresolved. C 2 2 2 and P 41 2 2 have been seen and are wrong.
+    unit_cell: [57.9, 57.9, 150.2, 90.0, 90.0, 90.0]
+  insulin:
+    protein: Insulin
+    aliases: [insulin]
+    space_group_number: 197 # what fast_dp assigns: the point group
+    space_group: "I 2 3" # what dials and 3dii assign: the full group
+    accepted_space_groups: [] # other names that are not wrong
+    #   consistent across every run and both pipelines.
+    unit_cell: [77.9, 77.9, 77.9, 90.0, 90.0, 90.0]
+  lysozyme:
+    protein: Lysozyme
+    aliases: [lysozyme, lyso]
+    space_group_number: 89 # what fast_dp assigns: the point group
+    space_group: "P 4 21 2" # what dials and 3dii assign: the full group
+    accepted_space_groups: ["P 4 2 2"] # other names that are not wrong
+    #   P 4 2 2 appears occasionally, again the screw axis unresolved.
+    unit_cell: [79.0, 79.0, 37.1, 90.0, 90.0, 90.0]
+  carbonic_anhydrase:
+    protein: Carbonic anhydrase
+    aliases: [carbonicanhydrase, carbonic]
+    space_group_number: 3 # what fast_dp assigns: the point group
+    space_group: "P 1 21 1" # what dials and 3dii assign: the full group
+    accepted_space_groups: ["P 1 2 1"] # other names that are not wrong
+    #   P 1 2 1 is the same without the screw axis. P 1 means indexing failed.
+    unit_cell: [42.1, 41.0, 71.6, 90.0, 104.3, 90.0]
+  thermolysin:
+    protein: Thermolysin
+    aliases: [thermolysin]
+    space_group_number: 177 # what fast_dp assigns: the point group
+    space_group: "P 6 2 2" # what dials and 3dii assign: the full group
+    accepted_space_groups: [] # other names that are not wrong
+    #   point group 177 from fast_dp; the full group has not been seen in the
+    #   xia2 output sampled, so this needs confirming.
+    unit_cell: [93.2, 93.4, 128.6, 90.0, 90.0, 120.0]
+  glucose_isomerase:
+    protein: Glucose isomerase
+    aliases: [glucoseisomerase, glucose]
+    space_group_number: 23 # what fast_dp assigns: the point group
+    space_group: "I 2 2 2" # what dials and 3dii assign: the full group
+    accepted_space_groups: [] # other names that are not wrong
+    #   consistent in the runs sampled.
+    unit_cell: [92.8, 99.0, 102.6, 90.0, 90.0, 90.0]
+
+# Identity checks. These gate everything in the i04 override: a wrong space group
+# means the statistics describe a bad interpretation of the data, not a bad
+# beamline. They are not i04 physics, so they belong here.
+assessment_rules:
+  Test_sample_identified:
+    # Whether the master file path matched a sample in the registry above.
+    # A warning rather than a danger on purpose: an unrecognised sample is a gap
+    # in configuration, not a fault on the beamline. It stays visible in every
+    # report until someone either adds the sample or corrects the naming.
+    check_type: 'equals'
+    good_value: 'yes'
+    mismatch_status: 'warning'
+  Space_group_match:
+    check_type: 'equals'
+    good_value: 'yes'
+  Unit_cell_deviation_pct:
+    # Largest deviation of a, b or c from the sample's usual cell. A couple of
+    # percent is ordinary variation between crystals of the same protein; much
+    # more than that means this is not the sample we think it is.
+    check_type: 'less_than'
+    limits: [2.0, 5.0] # [good_if_below, warning_if_below]
+  Dose_this_collection_MGy:
+    # The module instructs staff to collect at 1.5 MGy. Over 83 standard
+    # 3600-image test-crystal sweeps between May and August 2026 the delivered
+    # dose sat at a median of 1.55 MGy with a quartile range of 1.54-1.58, so the
+    # instruction is followed closely and a value well outside it means the
+    # transmission was not what was intended.
+    #
+    # This is the check that would have caught 31 July and 2 August 2026, when
+    # the collections ran at 71% transmission instead of ~35% and delivered just
+    # over double the intended dose. 6.4 MGy of that crystal's 33.4 MGy lifetime
+    # came from those two mornings and nobody noticed at the time.
+    #
+    # The band is wider than the observed spread on purpose: a shorter
+    # characterisation strategy legitimately delivers less, and should read
+    # warning rather than danger.
+    check_type: 'in_range'
+    limits: [1.2, 1.9, 0.9, 2.5] # [good_min, good_max, warn_min, warn_max]
+  Dose_crystal_lifetime_MGy:
+    # Everything this crystal has absorbed during the visit, X-ray centring shots
+    # included. 30 MGy is the Garman limit, at which a test crystal is due for
+    # replacement; the warning at 25 gives notice rather than announcing it on
+    # the day.
+    #
+    # Worth knowing when reading this: ISa is measurably falling well before
+    # 30 MGy - r = -0.84 against cumulative dose over one crystal's life - so the
+    # limit is a backstop, not the point at which the crystal was still good.
+    check_type: 'less_than'
+    limits: [25.0, 30.0] # [good_if_below, warning_if_below]
+
+# Short explanations shown under the report table, for the parameters whose names
+# do not explain themselves. Only those present in a given report appear, so a
+# report does not carry footnotes about checks that did not run.
+#
+# ISa, Resolution, Rmeas, CChalf, Completeness and Multiplicity are deliberately
+# absent: any reader of an MX report already knows them, and a note on each would
+# bury the ones that need it.
+#
+# Beamline-independent - what the metric means does not change with the beamline -
+# so this lives in the shared file.
+parameter_notes:
+  Dose_this_collection_MGy: >-
+    Absorbed dose delivered to the crystal by this collection, including the
+    X-ray centring shots fired at it beforehand. Calculated with RADDOSE-3D from
+    the flux, energy, beam size and exposure recorded when the detector was
+    armed. The module asks for 1.5 MGy, so a value far from that means the
+    transmission was not what was intended.
+  Dose_crystal_lifetime_MGy: >-
+    Everything this crystal has absorbed during the visit. Radiation damage
+    lowers ISa and raises Rmeas whatever the beamline is doing, so this is the
+    column that says whether a declining test crystal is a beamline problem or
+    simply an old crystal. 30 MGy is the Garman limit for replacement.
+  Dose_collections_counted: >-
+    How many armed collections went into the lifetime figure, as a check that the
+    crystal's history was found rather than partially matched.
+  Scale_step_pct: >-
+    Largest jump in per-image scale between adjacent 25-image windows. Absorption
+    changes smoothly as the crystal turns, so a step means something happened
+    during the collection rather than because of it: a beam dump, a shutter
+    glitch, or the crystal slipping.
+  Scale_step_at: >-
+    Where that jump was, so the images can be looked at.
+  Rmerge_worst_batch_ratio: >-
+    The worst ten-image batch's Rmerge divided by the median for the dataset. A
+    high value means one part of the sweep merged much worse than the rest.
+  Spot_prediction_sd_px: >-
+    How closely the predicted spot positions matched the observed ones, worst
+    block. Rising values point at the detector position, the beam, or the crystal
+    moving during the collection.
+  Goniometer_speed_sd_deg: >-
+    Whether omega turned at a constant speed. If it runs fast or slow the
+    reflection arrives at a different angle than predicted. This says nothing
+    about whether the rotation axis is well aligned.
+  Test_sample: >-
+    Which test protein this was, worked out from the master file path. A tick
+    means it was recognised. Without that, the space group and cell are still
+    recorded but cannot be checked against a protein we cannot name, and the
+    sample needs adding to the registry in modules/TestCrystal/TestCrystal.yaml.
+  Space_group: >-
+    The space group the processing assigned, checked against what this sample
+    usually gives. If it disagrees, the statistics above describe a bad
+    interpretation of the data rather than a bad beamline.
+  Unit_cell: >-
+    The measured a, b and c, checked against this sample's usual cell.
+  Unit_cell_deviation_pct: >-
+    Each of a, b and c compared with this sample's usual value, as a percentage;
+    the largest of the three is reported. A couple of percent is ordinary
+    variation between crystals of the same protein.
+  Sample_looks_like: >-
+    The space group and cell match a different registered protein. The wrong
+    sample may have been mounted, or it may be mislabelled - the data itself is
+    fine.
+
+# What the report says when this module was not run (F1).
+#
+# It lives here rather than in CreateReport because it is knowledge about *this*
+# module - why skipping it matters - and someone working on this module should
+# not have to edit the reporting module to change its own wording. CreateReport
+# reads it at render time, the same way it reads parameter_notes.
+#
+# `severity` is `critical` or `warning`. Say why this check matters on its own
+# terms; do not rank it against the others, which reads as permission to skip
+# them.
+not_run:
+  severity: warning
+  title: Test Crystal
+  message: >-
+    No test crystal data was harvested. This is important as the last check
+    that the beamline is ready for users, and it also serves as a data point
+    if users later report problems with their data from today - having a
+    dataset we know worked can be important when debugging a user's data.

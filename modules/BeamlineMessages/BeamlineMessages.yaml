@@ -1,0 +1,13 @@
+Widget_Name: BeamlineMessages_W
+Widget_Title: Messages from fellow staff
+List_Widget_Title: Messages from fellow staff members about previous setups or issues
+List_Widget_Data:
+  - Message 1
+  - Message 2
+  - Message 3
+  - Message 4
+  - Message 5
+Push_Button_SaveClose: Save and Close
+Push_Button_Cancel: Cancel
+Push_Button_ReRead: Re-Read
+rediskey: '{BEAMLINE}:BeamlineSetup:BeamlineMessages'

@@ -1,0 +1,57 @@
+Dear Users,
+
+Here is some information regarding your upcoming beamtime.
+
+### Beamline Status
+
+**Date:** {{ human_date }}
+
+The {{beamline}} beamline is prepped and will be ready for you, at your expected starting time. You will be able to connect to NX and start your remote experiments.
+
+### Important Information
+
+As always, it's a good idea to check the beamline "Messages" menu in GDA for any recent updates or reminders.
+
+### Default Beamline Conditions
+
+    Default & recommended energy: 13000 eV
+    Default beam size: 30x20 microns (HxV)
+    Default mode for data collection: Set target dose - see more on dose aware data collection on our website. This is our recommended approach to help mitigate the risk of radiation damage to your samples.
+
+### Beam Performance
+
+
+The beam is performing well today. We've had a smooth run with the standard beam alignment and centre of rotation calibrations. {% if test_data_available %}To give you an idea of the beam quality, our test data collection on {{ a_test_sample }} crystal returned a {{rmeas_lowres}} % Rmeas in the lowest-resolution bin, and an ISa (I/sigma asymptotic) of {{ISa}}, using 1.5 MGy for 360 degrees at 500Hz (max speed). So, the instrument is in a good condition.{% else %}The instrument is in a good condition and ready for your experiments.{% endif %}
+
+
+{% if puck_info and puck_info.puck_names %}
+### Sample Loading for Proposal: {{ puck_info.proposal }}
+
+We have loaded {{ puck_info.puck_names | length }} puck(s) for your experiment into the robot dewar.
+  - Puck Names: {{ puck_info.puck_names | join(', ') }}
+  - Robot Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+  
+###Sample Loading
+
+We've loaded pucks into the robot dewar for you. 
+{% endif %}
+
+### Shift Handovers and Automated Collections (UDC)
+
+Please be aware of the protocol for handing over the beamline to ensure a smooth transition. If the Unattended Data Collection (UDC) system is running at the start of your session, please request the baton in GDA and allow a few moments for it to be passed to you.
+
+At the end of your session, please check if the next user group is ready to start. If no one appears to be waiting, or if you finish early, the standard procedure is to pass the baton to the 'udc' user before you unload your last sample from the goniometer. The automated system will then take control and handle the unloading of your sample.
+
+### Support
+
+For any support needed during the night or weekend, please contact the Experimental Hall Coordinators (EHCs).
+
+Good luck with your experiments! 
+
+Regards,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}
+

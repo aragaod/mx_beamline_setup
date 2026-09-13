@@ -1,0 +1,54 @@
+Greetings from Pride Rock!
+
+The great Circle of Life (and Science) has brought you here. The {{beamline}} is ready for your reign to begin. You can take your place in the great circle via NX at your start time.
+
+### State of the Pride Lands
+
+**Date:** {{ human_date }}
+
+Everything the light touches is our kingdom, and it is ready for you.
+
+### A Message from Zazu
+
+For the morning report, and other important news, it's wise to check the "Messages" menu in GDA.
+
+### The Law of the Jungle (Default Conditions)
+
+  - Sun's Energy: 13000 eV
+  - Gazelle Focus (Beam Size): 30x20 microns (HxV)
+  - The Hunt: 'Set target dose'. (More on this philosophy on our website). Remember, a true king doesn't take more than he needs. Respect the Circle of Life by using just enough dose, or you might upset the delicate balance of your crystal's ecosystem.
+
+### Is the Herd Moving?
+
+The beam is running beautifully, no stampedes today. {% if test_data_available %}A test on a tasty {{ test_sample }} crystal grub gave us a delightful {{rmeas_lowres}}% Rmeas and an ISa of {{ISa}}. Slimy, yet satisfying!{% else %}The instrument is in perfect harmony and ready for your experiments.{% endif %}
+
+
+{% if puck_info and puck_info.puck_names %}
+
+
+### Your Little Heirs (Proposal: {{ puck_info.proposal }})
+
+We have placed your {{ puck_info.puck_names | length }} precious cub(s) safely in the den.
+  - Puck Names: {{ puck_info.puck_names | join(', ') }}
+  - Den Locations: {{ puck_info.locations | join(', ') }}
+
+{% else %}
+
+### Your Cubs are Safe
+
+Your pucks are nestled in the dewar, waiting for their moment in the sun.
+{% endif %}
+
+### Handing Over the Throne
+
+When your time as king is over, see if the next heir has arrived. If the throne is empty, pass the royal baton to 'udc' *before* you collect your cubs. Remember who you are.
+
+### Call Rafiki
+
+If you need wisdom during the long, dark night, the Experimental Hall Coordinators (EHCs) are there to guide you.
+
+Hakuna Matata! (It means no bad data),
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

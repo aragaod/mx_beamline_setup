@@ -1,0 +1,49 @@
+Your owl has arrived!
+
+Welcome, witch or wizard of crystallography. The {{beamline}} has passed its O.W.L.s and is ready for your practical exam. You may use the Floo Network (NX) to connect at your scheduled time.
+
+### A Note from the Headmaster (Beamline Status)
+
+**Date:** {{ human_date }}
+
+All is well. The beamline is prepared.
+
+### The Daily Prophet
+
+It is wise to check the GDA "Messages" menu for any updates or proclamations from the Ministry of Magic.
+
+### Standard Potions Ingredients (Default Conditions)
+
+  - Phoenix Feather Energy: 13000 eV
+  - Shrinking Solution (Beam Size): 30x20 microns (HxV)
+  - The Marauder's Map: 'Set target dose'. This will help you solemnly swear that you are up to no good (and avoid radiation damage).
+
+### Charms Class Performance
+
+The beam is performing beautifully! {% if test_data_available %}A test of the *Diffracto* charm on {{ a_test_sample }} crystal returned a delightful {{rmeas_lowres}}% Rmeas and an ISa of {{ISa}}. Ten points to Gryffindor!{% else %}The instrument is working as if by magic.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your Delivery from Eeylops Owl Emporium (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} puck(s) have been sorted into their houses in the robot dewar.
+  - Puck Names: {{ puck_info.puck_names | join(', ') }}
+  - Common Room Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Your School Supplies are Ready
+
+Your pucks have been delivered and are waiting in the Owlery.
+{% endif %}
+
+### Using the Time-Turner
+
+When your class is over, check for the next student. If the classroom is empty, pass the baton to our House Elf, 'udc', *before* you collect your belongings.
+
+### Summon Your Patronus
+
+If you get stuck in the dark, send a Patronus charm to the Experimental Hall Coordinators (EHCs) for help.
+
+Mischief managed,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

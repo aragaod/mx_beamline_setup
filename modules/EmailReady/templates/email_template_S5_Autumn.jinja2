@@ -1,0 +1,49 @@
+A spooktacular greeting from the beamline!
+
+No tricks, just treats: the {{beamline}} is ready for a night of delightful frights and dazzling science. You can connect via NX if you dare...
+
+### A Message from the Crypt
+
+**Date:** {{ human_date }}
+
+The beamline has been awakened and is ready for your experiment.
+
+### Heed the Warning
+
+Remember, remember to check the GDA "Messages" menu!
+
+### Potion Ingredients (Default Conditions)
+
+  - Energy: 13000 eV
+  - Beam Size: 30x20 microns (HxV)
+  - The Magic Spell: 'Set target dose'. This is the best way to avoid a real horror show from radiation damage.
+
+### A Dazzling Display
+
+The beam performance is looking fangtastic! {% if test_data_available %}Our {{ test_sample }} test data is going 'BOOM' in the night, with an Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}. It's alive!{% else %}The instrument is working like a charm. No gremlins in the system.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your Bag of Treats (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} puck(s) are waiting in the cauldron (the robot dewar).
+  - Puck Names: {{ puck_info.puck_names | join(', ') }}
+  - Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Ready for Mischief
+
+Your pucks are ready for a night of ghoulishly good data collection.
+{% endif %}
+
+### The Final Act
+
+When your night of mischief is over, check for the next creature of the night. If all is quiet, pass the baton to our ghost in the machine, 'udc', *before* you vanish.
+
+### The Ghostbusters
+
+Don't be a scaredy cat! If anything goes bump in the night, the EHCs are who you're gonna call.
+
+Happy haunting,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

@@ -1,0 +1,27 @@
+# Local configuration files (use configure_blsetup.yaml.example as template)
+configure_blsetup.yaml
+configure_blsetup_devel*.yaml
+
+# Internal documentation and development scripts
+PROGRESS.md
+dev/
+*ssh_not_commit*.py
+
+# Logs and runtime artifacts
+*.log
+__pycache__/
+*.pyc
+*.pyo
+*.swp
+*~
+.DS_Store
+.emacs.desktop
+
+# UI build backups
+base/Graphical_User_Interface.py.bk
+UIs/Graphical_User_Interface_2024.ui
+UIs_py/Graphical_User_Interface_2024.py
+addons/*
+I03_autobeamlinesetup.py
+setup_logo.png
+.git_old

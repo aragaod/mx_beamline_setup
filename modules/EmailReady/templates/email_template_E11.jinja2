@@ -1,0 +1,49 @@
+Ahoy there, Captain!
+
+The ship, The {{beamline}}, is shipshape and ready to set sail for data island. You can board her via the gangplank (NX) at high tide.
+
+### Captain's Log
+
+**Date:** {{ human_date }}
+
+The ship is ready, the crew is waiting.
+
+### Reading the Stars
+
+Check the GDA "Messages" menu. They're more what you'd call "guidelines" than actual rules.
+
+### Pieces of Eight (Default Conditions)
+
+  - Cannonball Power: 13000 eV
+  - Spyglass Focus (Beam Size): 30x20 microns (HxV)
+  - The Pirate's Code: 'Set target dose'. This be the best way to keep your crystals from walking the plank into the sea of radiation damage. Savvy?
+
+### What Lies Over the Horizon?
+
+The seas be calm and the treasure is near! {% if test_data_available %}Our first shot across the bow at {{ a_test_sample }} crystal returned a treasure map showing {{rmeas_lowres}}% Rmeas and an ISa of {{ISa}}. Drink up me hearties, yo ho!{% else %}The winds are in our favour and the ship is ready to sail.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your Treasure (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} chest(s) of pucks be safely stowed in the hold.
+  - Chest Markings: {{ puck_info.puck_names | join(', ') }}
+  - Locations on the Map: {{ puck_info.locations | join(', ') }}
+{% else %}
+### The Cargo is Secure
+
+Your pucks are locked in the brig, safe from the Kraken.
+{% endif %}
+
+### Parley! (Handover)
+
+When your voyage is done, see if the next captain be waiting at port. If not, hand the wheel over to our trusty quartermaster, 'udc', *before* you claim your booty.
+
+### Send a Message in a Bottle
+
+If you be needin' a hand from the crew during the night watch, send a message to the Experimental Hall Coordinators (EHCs).
+
+Yours in piracy,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

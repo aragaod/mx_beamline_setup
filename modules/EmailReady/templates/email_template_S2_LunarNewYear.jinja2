@@ -1,0 +1,49 @@
+Gong Xi Fa Cai! Wishing you a prosperous experiment!
+
+The {{beamline}} beamline is ready to roar into the new year with power and good fortune. You can connect via NX to begin the celebration.
+
+### A Fortunate Outlook
+
+**Date:** {{ human_date }}
+
+The instrument is prepared for a successful run.
+
+### Words of Wisdom
+
+For good luck in your experiment, please check the "Messages" menu in GDA for any important information.
+
+### Auspicious Settings
+
+  - Energy: 13000 eV
+  - Beam Size: 30x20 microns (HxV)
+  - Collection Protocol: 'Set target dose'. May this method bring you great fortune and protect your samples from harm.
+
+### A Sign of Good Luck
+
+The beam is performing with the strength of a dragon! {% if test_data_available %}Our {{ test_sample }} test results, an Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}, are a sign of great luck to come.{% else %}The instrument is stable and balanced for a harmonious experiment.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your Red Envelopes (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} lucky puck(s) are ready for you in the robot dewar.
+  - Puck Names: {{ puck_info.puck_names | join(', ') }}
+  - Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Ready for the Feast
+
+Your pucks are lined up like firecrackers, ready for a spectacular show.
+{% endif %}
+
+### Passing the Lantern
+
+When your session concludes, please check for the next user. If no one has arrived, pass the baton to our 'udc' system to ensure continued prosperity.
+
+### Help is at Hand
+
+For good fortune with any issues, the Experimental Hall Coordinators (EHCs) are here to help.
+
+Wishing you success and happiness,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

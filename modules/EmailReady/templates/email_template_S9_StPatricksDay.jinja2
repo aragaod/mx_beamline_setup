@@ -1,0 +1,52 @@
+Top o&#39; the mornin&#39; to ya!
+
+Wishing you the luck of the Irish for your experiment. The {{beamline}} is glowing green and ready for action. You can connect via NX to get started.
+
+### What's the Story?
+
+**Date:** {{ human_date }}
+
+The beamline is ready for the craic.
+
+### A Bit of Advice
+
+Don't be an eejit, check the "Messages" menu in GDA before you start.
+
+### The Essentials
+
+  - Energy: 13000 eV
+  - Beam Size: 30x20 microns (HxV)
+  - Collection Protocol: 'Set target dose'. May this bring you the good fortune to protect your samples from harm.
+
+### A Bit of Magic
+
+The beam is working like a charm. {% if test_data_available %}You've found the pot of gold! Our {{ test_sample }} test data shows a shimmering Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}.{% else %}The instrument is ready to go. Grand.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+
+### Your Lucky Charms (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} puck(s) have been safely stored in the dewar for you.
+
+  - Puck Names: {{ puck_info.p_names | join(', ') }}
+  - Locations: {{ puck_info.locations | join(', ') }}
+    {% else %}
+
+### Ready for the Rainbow
+
+Your lucky pucks are waiting for you.
+{% endif %}
+
+### The Handover
+
+When your session is over, check for the next person. If there's no one about, pass the baton to 'udc' before you head off.
+
+### Need a Hand?
+
+For a bit of serendipity with any technical hitches, the EHCs are on hand.
+
+Sláinte,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

@@ -1,0 +1,421 @@
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style type="text/css"> 
+body { 
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+#container {
+    width: 210mm;
+    margin: 0 auto;
+}
+#calibration { 
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; 
+    width:100%;
+    border-collapse:collapse; 
+} 
+
+#calibration td, #calibration th { 
+    font-size:1em; 
+    border:0px solid #8f1b98; 
+    padding:3px 7px 2px 7px; 
+    text-align: left;
+    vertical-align: top;
+} 
+
+#calibration > tbody > tr:first-child th {
+    background-color: #8f1b98;
+    color: #FFFFFF;
+    font-size: 1.6em;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+#calibration > tbody > tr:nth-child(2) th {
+    background-color: #8f1b98;
+    color: #FFFFFF;
+    font-size: 0.9em;
+    font-weight: normal;
+    border-bottom: 2px solid #FFFFFF;
+}
+
+#calibration td.table-title-cell {
+    background-color: #CA6F1E;
+    padding: 4px 7px;
+}
+
+#calibration td.table-title-cell h2 {
+    color: #FFFFFF;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+
+#calibration th.data-header {
+    background-color: #CA6F1E;
+    color: #FFFFFF;
+    font-size: 1.0em;
+    font-weight: bold;
+}
+
+#calibration hr {
+    border: 0;
+    height: 4px;
+    background-color: #DDDDDD;
+}
+
+.commissioning-row td {
+    background-color: #f2f2f2;
+    font-style: italic;
+    color: #444;
+}
+
+.status-good { color: #28a745; font-weight: bold; }
+.status-warning { color: #ffc107; font-weight: bold; }
+.criterion { color: #6c757d; font-size: 85%; white-space: nowrap; text-align: right; padding-right: 8px; }
+.notes { color: #6c757d; font-size: 85%; padding: 6px 4px 10px 4px; line-height: 1.5; }
+/* "This module ran and found nothing" - an empty dewar, no NX sessions, no
+   beamstop data in the window. Semantically the same kind of statement as a
+   module that was not run at all, so it is given the same appearance: there is
+   no reason for one report to carry two visual languages for "something is
+   missing". Was small, italic and dark yellow on pale yellow, which read as a
+   different report next to the not-run blocks and was hard to read besides. */
+.nothing-found { color: #212529; background: #FFF8E1; font-style: normal;
+                 font-size: 100%; line-height: 1.5; padding: 10px 12px;
+                 border-left: 6px solid #FFC107; }
+/* A skipped module. Both levels share one legible base - normal weight, full
+   size, near-black text - and differ only in accent. The amber note used to
+   inherit `.nothing-found`, which is small, italic and dark yellow on pale
+   yellow; next to the red band it looked like a different report, and it was
+   hard to read on its own account. */
+.not-run { color: #212529; font-style: normal; font-size: 100%;
+           line-height: 1.5; padding: 10px 12px; }
+.not-run .why { color: #495057; }
+.not-run .flag { font-weight: bold; letter-spacing: 0.04em; }
+.not-run-critical { background: #FDEAEA; border-left: 6px solid #C0392B; }
+.not-run-critical .flag { color: #C0392B; }
+.not-run-warning  { background: #FFF8E1; border-left: 6px solid #FFC107; }
+.notes b { color: #495057; font-weight: 600; }
+.status-unassessed { color: #6c757d; font-size: 85%; font-style: italic; }
+.status-danger { color: #dc3545; font-weight: bold;
+}
+
+.report-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.8em;
+    color: #666666;
+}
+.report-footer a {
+    color: #00796B;
+    text-decoration: none;
+}
+.report-footer a:hover {
+    text-decoration: underline;
+}
+  
+</style> 
+  
+</head>
+
+<body>
+<div id="container">
+  <table id="calibration">
+    
+    <tr class="report-title"> 
+        <th colspan="8">{{ data.beamline }} Beamline Setup Report</th>
+    </tr> 
+    <tr class="report-subtitle">
+        <th colspan="8">{{ data.human_readable_date }} (Completed by: {{ data.beamline_scientist }})</th>
+    </tr>
+    
+    {% for module_key, module_data in data["modules"].items() %}
+        <tr>
+            <td><h2>{{ module_key.split('_')[0] }}</h2></td>
+        </tr>
+
+        {% if "image_url" in module_data %}
+            {% if module_data["image_url"] is not none %}
+        <tr>
+            <td colspan="8">
+                <p align="center">
+                    <a href="{{ module_data['image_url']['full_link'] }}">
+                        <img src="{{ module_data['image_url']['image'] }}" alt="{{ module_key }}" width="{{ data['image_width_px'] }}" />
+                    </a>
+                </p>
+            </td>
+        </tr>
+        {% else %}
+           <tr>
+            <td colspan="8" ><p>no image for {{ module_key }}</p></td>
+        </tr>    
+            {% endif %}        
+        {% endif %}
+
+        {# A module that was skipped. Said explicitly, because an absent section
+           looks the same as a module that does not exist, and staff have
+           forgotten to run one without the report saying so. #}
+        {% if module_data.not_run %}
+            <tr>
+                <td colspan="8" class="not-run {% if module_data.not_run_severity == "critical" %}not-run-critical{% else %}not-run-warning{% endif %}">
+                    {% if module_data.not_run_severity == "critical" %}<span class="flag">ATTENTION:</span> {% endif %}
+                    <b>{{ module_data.table_title }}</b> was not run today.
+                    {% if module_data.not_run_message %}<br><span class="why">{{ module_data.not_run_message }}</span>{% endif %}
+                </td>
+            </tr>
+
+        {# --- PATH 1: For the special 'RemoteAccess' module --- #}
+        {% elif module_key.split("_")[0] == "RemoteAccess" %}
+            {% if module_data.nx_connections and module_data.nx_connections|length > 1 %}
+                <tr>
+                   <td class="table-title-cell" colspan="8" ><h2>{{module_data.table_title }}</h2></td>
+                </tr>
+                <tr>
+                    {% for header in module_data.nx_connections[0] %}
+                        <th class="data-header">{{ header }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in module_data.nx_connections[1:] %}
+                <tr>
+                    {% for cell in row %}
+                        <td>{{ cell }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            {% else %}
+                 <tr>
+                    <td colspan="8"><i>{{ module_data.get("no_data_message", "No data to display.") }}</i></td>
+                </tr>
+            {% endif %}
+
+                    {% if module_data.no_remote_message %}
+                <tr>
+                    <td class="nothing-found" colspan="8">{{ module_data.no_remote_message }}</td>
+                </tr>
+            {% endif %}
+            {# Sessions on the beamline machines themselves. Kept apart from the
+               remote ones: gdm and i04user sitting at the console are not users
+               connected from outside, and listing them together made the table
+               read as though they were. #}
+            {% if module_data.local_sessions and module_data.local_sessions | length > 1 %}
+                <tr>
+                    <td class="table-title-cell" colspan="8"><h2>Local sessions on the beamline machines</h2></td>
+                </tr>
+                {% for row in module_data.local_sessions %}
+                <tr>
+                    {% if loop.first %}
+                        {% for cell in row %}<th class="data-header">{{ cell }}</th>{% endfor %}
+                    {% else %}
+                        {% for cell in row %}<td>{{ cell }}</td>{% endfor %}
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            {% endif %}
+
+        {# --- PATH 2: For the special 'SampleLoad' module --- #}
+        {% elif module_key.split("_")[0] == "SampleLoad" %}
+
+            {# An empty dewar and a successful load look the same in a report
+               that lists only what it found, so the module says so explicitly. #}
+            {% if module_data.no_pucks_message %}
+                <tr>
+                    <td class="nothing-found" colspan="8">{{ module_data.no_pucks_message }}</td>
+                </tr>
+            {% endif %}
+
+            {# Table 1: Interactive Users Puck Locations #}
+            {% if module_data.processed_pucks %}
+                <tr>
+                    <td class="table-title-cell" colspan="8"><h2>Interactive users puck locations</h2></td>
+                </tr>
+                <tr>
+                    <th class="data-header" colspan="2">Proposal</th>
+                    <th class="data-header" colspan="3">Robot locations</th>
+                    <th class="data-header" colspan="3">Puck Names</th>
+                </tr>
+            
+                {% for puck_info in module_data.processed_pucks %}
+                    {# Decide the background color based on the UDC flag #}
+                    {% set bg_color = 'lightcyan' if puck_info.is_udc else 'lightgreen' %}
+                    
+                    <tr class="{{ 'commissioning-row' if puck_info.is_commissioning else '' }}" style="background-color: {{ bg_color }};">
+                        <td colspan="2">{{ puck_info.proposal }}</td>
+                        <td colspan="3">{{ puck_info.locations | join(', ') }}</td>
+                        <td colspan="3">
+                            {# Extract the names from the new pucks dictionary list #}
+                            {% for p in puck_info.pucks %}
+                                {{ p.name }}{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            
+            {# Table 2: Robot Dewar Contents.
+               Only when a position actually holds something. Every row below is
+               filtered on having a value, so an empty dewar would otherwise
+               render a heading and a column header with nothing underneath. #}
+            {% set occupied = [] %}
+            {% for p_key, p_val in module_data.parameters.items()
+               if not (p_val is mapping and p_val.hidden) %}
+              {% if p_val and p_val | trim != "" and p_val != "None" %}
+                {% set _ = occupied.append(p_key) %}
+              {% endif %}
+            {% endfor %}
+            {% if occupied %}
+                <tr>
+                    <td class="table-title-cell" colspan="8" ><h2>{{ module_data.table_title }}</h2></td>
+                </tr>
+                <tr>
+                    <th class="data-header" colspan="4">Parameter</th>
+                    <th class="data-header" colspan="3">Value</th>
+                    <th class="data-header" colspan="1">Image</th>
+                </tr>
+                {% for p_key, p_val in module_data.parameters.items()
+                   if not (p_val is mapping and p_val.hidden) %}
+                    {% if p_val and p_val | trim != "" and p_val != "None" %}
+                    <tr>
+                        <td colspan="4">{{ p_key }}</td>
+                        <td colspan="3">{{ p_val }}</td>
+                        <td colspan="1" style="text-align: center;">
+                            {% if module_data.puck_elog_images and p_val in module_data.puck_elog_images %}
+                                {% set img_data = module_data.puck_elog_images[p_val] %}
+                                <a href="{{ img_data.full_link }}">
+                                    <img src="{{ img_data.image }}" alt="{{ p_val }}" width="80" />
+                                </a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+              {% endif %}
+	      
+        {# --- PATH 2.5: For the 'BeamstopAlignment' module --- #}
+        {% elif module_key.split("_")[0] == "BeamstopAlignment" %}
+            <tr>
+                <td class="table-title-cell" colspan="8"><h2>{{ module_data.table_title }}</h2></td>
+            </tr>
+            {% if module_data.no_data_message %}
+                <tr>
+                    <td class="nothing-found" colspan="8">{{ module_data.no_data_message }}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <th class="data-header" colspan="3">Parameter</th>
+                <th class="data-header" colspan="2">Value</th>
+                <th class="data-header" colspan="2">Criterion</th>
+                <th class="data-header" colspan="1">Status</th>
+            </tr>
+            {# Skip parameters marked hidden: recorded for later analysis, but not
+               something staff need to read every morning. See hidden_parameters
+               in the module YAML. #}
+            {% for p_key, p_val in module_data['parameters'].items()
+               if not (p_val is mapping and p_val.hidden) %}
+            <tr>
+                {% if p_val is mapping %}
+                    <td colspan="3">{{ p_key }}</td>
+                    <td colspan="2">{{ p_val.display if p_val.display is defined else p_val.value }}</td>
+                    <td class="criterion" colspan="2" title="{{ p_val.note or '' }}">{{ p_val.criterion or '' }}</td>
+                    <td class="status-{{ p_val.status or 'none' }}" colspan="1" style="text-align: center;">
+                        {% if p_val.status == 'good' %}<i class="fas fa-check-circle"></i>
+                        {% elif p_val.status == 'warning' %}<i class="fas fa-exclamation-triangle"></i>
+                        {% elif p_val.status == 'danger' %} <i class="fas fa-times-circle"></i>
+                        {% elif p_val.note %}<span class="status-unassessed" title="{{ p_val.note }}">not checked</span>
+                        {% else %}-
+                        {% endif %}
+                    </td>
+                {% else %}
+                    <td colspan="3">{{ p_key }}</td>
+                    <td colspan="2">{{ p_val }}</td>
+                    <td colspan="2"></td>
+                    <td colspan="1" style="text-align: center;">-</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+
+        {# --- PATH 3: For all OTHER standard modules (like TestCrystal) --- #}
+        {% elif module_data.parameters %}
+            <tr>
+                <td class="table-title-cell" colspan="8"><h2>{{ module_data.table_title }}</h2></td>
+            </tr>
+            {% if module_data.no_images_message %}
+                <tr>
+                    <td class="nothing-found" colspan="8">{{ module_data.no_images_message }}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <th class="data-header" colspan="3">Parameter</th>
+                <th class="data-header" colspan="2">Value</th>
+                <th class="data-header" colspan="2">Criterion</th>
+                <th class="data-header" colspan="1">Status</th>
+            </tr>
+            {# Skip parameters marked hidden: recorded for later analysis, but not
+               something staff need to read every morning. See hidden_parameters
+               in the module YAML. #}
+            {% for p_key, p_val in module_data['parameters'].items()
+               if not (p_val is mapping and p_val.hidden) %}
+            <tr>
+                {% if p_val is mapping %}
+                    <td colspan="3">{{ p_key }}</td>
+                    <td colspan="2">{{ p_val.display if p_val.display is defined else p_val.value }}</td>
+                    <td class="criterion" colspan="2" title="{{ p_val.note or '' }}">{{ p_val.criterion or '' }}</td>
+                    <td class="status-{{ p_val.status or 'none' }}" colspan="1" style="text-align: center;">
+                        {% if p_val.status == 'good' %}<i class="fas fa-check-circle"></i>
+                        {% elif p_val.status == 'warning' %}<i class="fas fa-exclamation-triangle"></i>
+                        {% elif p_val.status == 'danger' %} <i class="fas fa-times-circle"></i>
+                        {% elif p_val.note %}<span class="status-unassessed" title="{{ p_val.note }}">not checked</span>
+                        {% else %}-
+                        {% endif %}
+                    </td>
+                {% else %}
+                    <td colspan="3">{{ p_key }}</td>
+                    <td colspan="2">{{ p_val }}</td>
+                    <td colspan="2"></td>
+                    <td colspan="1" style="text-align: center;">-</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            {# A short note for the parameters whose names do not explain
+               themselves. Defined per module as parameter_notes in its YAML, and
+               shown only for parameters this report actually contains, so the
+               report does not carry footnotes about checks that did not run. #}
+            {% set shown = [] %}
+            {% for p_key, p_val in module_data['parameters'].items()
+               if not (p_val is mapping and p_val.hidden) %}
+              {% if module_data.parameter_notes and module_data.parameter_notes[p_key] %}
+                {% set _ = shown.append(p_key) %}
+              {% endif %}
+            {% endfor %}
+            {% if shown %}
+            <tr>
+                <td colspan="8" class="notes">
+                    {% for p_key in shown %}
+                    <div><b>{{ p_key }}</b>: {{ module_data.parameter_notes[p_key] }}</div>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endif %}
+        {% endif %}
+
+        <tr>
+            <td colspan="8"><hr></td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+
+<div class="report-footer">
+    <p>
+        Source Code: 
+        <a href="https://github.com/DiamondLightSource/mx_beamline_setup">GitHub</a>
+    </p>
+</div>
+
+</body>
+
+

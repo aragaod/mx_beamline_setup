@@ -1,0 +1,50 @@
+A warm 'Cèud Mìle Fàilte' (one hundred thousand welcomes) to your beamtime!
+
+The {{beamline}} is ready for you, with the precision of a great Scottish engineer. You can connect via NX to begin.
+
+### A Message from the Highlands
+
+**Date:** {{ human_date }}
+
+The instrument is prepared for your experiment.
+
+### A Wee Reminder
+
+Don't forget to check the GDA "Messages" menu for the latest news.
+
+### The Pride of Scotland (Default Conditions)
+
+  - Energy: 13000 eV
+  - Beam Size: 30x20 microns (HxV)
+  - Collection Protocol: 'Set target dose'. A sensible choice to protect your precious samples.
+
+### A Grand Performance
+
+The beam is as strong as a Highland coo! {% if test_data_available %}Our {{ test_sample }} test data is looking as grand as the Highlands, with an Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}.{% else %}The instrument is ready. Och aye!{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your Delivery from the Castle (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} puck(s) are safer than the crown jewels in Edinburgh Castle.
+
+  - Puck Names: {{ puck_info.puck_names | join(', ') }}
+  - Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Samples Stored
+
+Your pucks are safe and sound in the dewar.
+{% endif %}
+
+### Passing the Tartan
+
+When your time is up, check for the next user. If no one is there, pass the baton to our 'udc' system before you depart.
+
+### A Helping Hand
+
+For support, our EHC team is as dependable and hardy as a Shetland pony.
+
+Lang may yer lum reek,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

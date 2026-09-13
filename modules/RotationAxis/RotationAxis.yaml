@@ -1,0 +1,41 @@
+WP1_Label_1_Title: "RotationAxis_WZ"
+WP1_Label_1_Text: |
+  ROTATION AXIS ALIGNMENT QC GATHERING
+
+  * 1. from robot options, mount the alignment pin.
+  This will automatically align and update the rotation axis at zoom 7.5X. Please check afterwards that it is well aligned.
+
+  *2. The align rotation axis button is available in Tools to use in case the automated recalibration does not work repeatedly
+
+  Full editable instructions in confluence here:
+  https://wiki.example.org/display/Beamline+startup+instructions
+
+  * IMPORTANT: Ensure tip is at crosshair and only press "Next" if it is SAFE to rotate the goniometer!
+
+WP2_Label_1_Title: "RotationAxis_WZ"
+WP2_Label_1_Text: |
+  * Data collected and stored for QC
+
+  Please unload the alignment pin and press 'FINISH'
+
+report_table_title: "Rotation Axis Goniometer Parameters"
+
+display_configuration: "/dls_sw/{BEAMLINE}/software/gda_versions/var/display.configuration"
+
+# What the report says when this module was not run (F1).
+#
+# It lives here rather than in CreateReport because it is knowledge about *this*
+# module - why skipping it matters - and someone working on this module should
+# not have to go and edit the reporting module to change its own wording.
+# CreateReport reads it at render time, the same way it reads parameter_notes.
+#
+# `severity` is `critical` or `warning`. Say why this check matters on its own
+# terms; do not rank it against the others, which reads as permission to skip
+# them.
+not_run:
+  severity: critical
+  title: Rotation Axis
+  message: >-
+    It is very important that the rotation axis is moved onto the
+    crosshairs, particularly if the crosshairs have changed. A beamline
+    should not be handed to users with an unverified rotation axis.

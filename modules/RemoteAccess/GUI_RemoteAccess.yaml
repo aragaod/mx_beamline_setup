@@ -1,0 +1,61 @@
+WP1_Label_1_Title: "RemoteAccess_WZ"
+WP1_Label_1_Text: |
+  If you have remote users today you should check there are 
+  not old java processes from NX sessions are not part of 
+  the current visit. 
+
+  You can do it manually (see confluence) or you can 
+  just press next and look into the log window. If 
+  you end up "killing" rogue sessions, it is worth 
+  running this again for the report
+
+  * Manual check using SSH and nxserver *
+   https://wiki.example.org/display/RemoteAccess
+
+  * Automatic check using this script (see log) *
+   Please click NEXT to let the script check if anyone 
+   is connected (see log window) 
+
+WP2_Label_1_Title: "RemoteAccess_WZ"
+WP2_Label_1_Text: |
+  Read the log window and check if there are users connected via 
+  noMachine.
+
+  Please do the following if you have to remove users that should 
+  not be connected.
+
+  To terminate an nx session use:        
+  > sudo /usr/NX/bin/nxserver --terminate {number}  
+
+  To broadcast a message to all nx sessions:        
+  > sudo /usr/NX/bin/nxserver --broadcast your message here        
+
+  Use finger to find which name is associated to a given FedID.        
+   >finger {FedID}
+
+  If there were users that you had to disconnect press	"back" and
+  "next" again re-run the check. Press FINISHED when done! 
+
+display_configuration: "/dls_sw/{BEAMLINE}/software/gda_versions/var/display.configuration"
+no_connections_message: "No active NX connections found on workstations."
+connections_table_title: "Remote NX Connections"
+
+# What the report says when this module was not run (F1).
+#
+# It lives here rather than in CreateReport because it is knowledge about *this*
+# module - why skipping it matters - and someone working on this module should
+# not have to edit the reporting module to change its own wording. CreateReport
+# reads it at render time, the same way it reads parameter_notes.
+#
+# `severity` is `critical` or `warning`. Say why this check matters on its own
+# terms; do not rank it against the others, which reads as permission to skip
+# them.
+not_run:
+  severity: warning
+  title: Remote Access
+  message: >-
+    Nobody checked who was connected to the beamline machines today.
+    Sessions left open by previous users keep running and slow the remote
+    access machines down, which degrades the experience for the users on the
+    beamline now. Checking who is connected and closing old sessions is what
+    keeps it responsive.

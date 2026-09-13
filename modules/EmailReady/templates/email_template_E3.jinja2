@@ -1,0 +1,48 @@
+Captain's Log, Stardate {{ human_date }}.
+
+The U.S.S. {{beamline}} is prepped for your mission into the final frontier of structural biology.
+
+### Mission Status
+
+The ship is in standard orbit and will be ready for you at the scheduled time. You can establish a remote link via the NX subspace channel.
+
+### A Message from Starfleet Command
+
+Standard procedure dictates you review the "Messages" menu in the GDA computer for any priority-one directives.
+
+### The Prime Directive (Default Parameters)
+
+  - Photon Torpedo Energy: 13000 eV
+  - Main Deflector Dish (Beam Size): 30x20 microns (HxV)
+  - Data Collection Subroutine: 'Set target dose'. Consult the ship's library computer (our website) for details. Remember to set phasers to 'stun', not 'kill'—too much dose will damage your sample beyond our ability to repair it.
+
+### Warp Core Stability Report
+
+The energy readings are well within nominal parameters. {% if test_data_available %}A diagnostic on a standard {{ test_sample }} crystal yielded an Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}. She's got it where it counts.{% else %}The ship is in excellent condition and ready for your mission.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Cargo Bay Report (Proposal: {{ puck_info.proposal }})
+
+We have transported {{ puck_info.puck_names | length }} specimen puck(s) aboard.
+  - Puck Designations: {{ puck_info.puck_names | join(', ') }}
+  - Stored in Cargo Bay locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Cargo Bay Report
+
+Your specimen containers are secure in the robotic dewar.
+{% endif %}
+
+### Bridge Handover Protocol
+
+At the end of your shift, verify if the next crew is on deck. If not, transfer command to the automated 'udc' program *before* beaming your samples out. Make it so.
+
+### Hailing Frequencies Open
+
+For engineering support during your away mission, especially on the night watch, contact the Experimental Hall Coordinators (EHCs).
+
+Live long and prosper,
+
+{{i04_staff_member}},
+Chief Science Officer
+
+PS: {{ optional_tip }}

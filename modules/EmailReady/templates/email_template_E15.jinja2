@@ -1,0 +1,49 @@
+Greetings, Comrade.
+
+This is a dispatch from the Ministry of Science. The {{beamline}} facility is operational for your scheduled production cycle. All experimenters will connect via the approved telescreen (NX). To not connect is a deviation.
+
+### Directive 2025.6.20
+
+**Date:** {{ human_date }}
+
+The facility is in a state of readiness. This is a fact.
+
+### Thought police Reminder
+
+Ingsoc policy dictates all comrades must check the GDA "Messages" menu for new directives. Failure to do so is unorthodox.
+
+### Approved Parameters
+
+  - Energy Allocation: 13000 eV. This is a final allocation. To request more is waste-thinking.
+  - Beam Aperture: 30x20 microns (HxV).
+  - Data Collection Protocol: 'Set target dose'. To question this protocol is a thoughtcrime. Excessive dosage is doubleplusungood and leads to unstructures. The Party requires good structures.
+
+### Production Report
+
+The instrument performance is doubleplusgood. {% if test_data_available %}The {{ test_sample }} test data confirms this with a {{rmeas_lowres}}% Rmeas and an ISa of {{ISa}}. These numbers are correct. Remember them.{% else %}The instrument is optimal. To suggest otherwise is facecrime.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Your Production Units (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} production units (pucks) have been logged and stored.
+  - Unit Designations: {{ puck_info.puck_names | join(', ') }}
+  - Storage Coordinates: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Units Stored
+
+Your production units are in the dewar. Big Brother is watching your samples.
+{% endif %}
+
+### Shift Transfer Protocol
+
+At the conclusion of your work cycle, ascertain the presence of the next comrade. If they are an unperson (absent), you must transfer control to the 'udc' automaton *before* retrieving your units. This is the procedure.
+
+### Contacting the Ministry
+
+For unscheduled assistance, contact the Experimental Hall Coordinators (EHCs). They are observing you for your own protection.
+
+War is peace. Freedom is slavery. Ignorance is strength.
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

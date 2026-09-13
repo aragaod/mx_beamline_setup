@@ -1,0 +1,49 @@
+Greetings from the Watchtower!
+
+The {{beamline}} beamline is ready. The Watchtower's main computer, with a systems integration by Cyborg, has confirmed all systems are go. You can connect remotely via the Zeta-Beam (NX) at your scheduled time.
+
+### A Call from the Watchtower (Beamline Status)
+
+**Date:** {{ human_date }}
+
+The beam is online and awaiting your command.
+
+### Justice League Alert
+
+A Justice League alert is active: please review the GDA "Messages" menu for the latest mission-critical intel before you begin.
+
+### Heroic Armaments
+
+  - Kryptonian Energy Cells: 13000 eV
+  - Lasso of Truth (Beam Size): 30x20 microns (HxV). It will reveal all.
+  - Collection Protocol: 'Set target dose'. Remember, you're not The Flash—going too fast with too much dose will burn out your crystal's connection to the Speed Force (and cause radiation damage).
+
+### Is the Fortress of Solitude Secure? (Beam Performance)
+
+The beam is more powerful than a locomotive! {% if test_data_available %}Our {{ test_sample }} crystal, beamed directly from the Fortress of Solitude, showed an Rmeas of {{rmeas_lowres}}% and an ISa of {{ISa}}. Not even Brainiac could find a flaw in this setup.{% else %}All systems are stable. No signs of Joker gas in the ventilation, and the beam is ready for action.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Cargo from Atlantis (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} puck(s), transported from the deep-freeze vaults of Atlantis, have been loaded and are now secure.
+  - Puck Designations: {{ puck_info.puck_names | join(', ') }}
+  - Storage Locations: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Samples Secured
+
+Aquaman's Royal Guard confirms your samples are loaded and secure in the dewar.
+{% endif %}
+
+### Passing the Lantern's Light (Handover)
+
+When your watch is over, check if the next hero has arrived on the scene. If not, pass the Green Lantern ring to our 'udc' Guardian *before* you retrieve your samples. In brightest day, in blackest night, no user shall escape your sight...
+
+### Amazonian Support (Support)
+
+Should you require aid, the Amazons of Themyscira are on standby. Contact the Experimental Hall Coordinators (EHCs) to send a distress call.
+
+For truth and justice,
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}

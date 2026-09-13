@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Beamline Setup
+Comment=Quality Control reporting of Beamline Setup
+Exec=beamline_setup.sh production
+Icon=img/logo.png
+Terminal=false
+Type=Application
+Categories=Application;Development;

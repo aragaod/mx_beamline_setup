@@ -1,0 +1,49 @@
+Regarding your application for beamtime.
+
+In accordance with subsection 4, paragraph B of the beamline usage mandate, we are notifying you that the apparatus known as {{beamline}} has been prepared. You may commence your authorized procedures after connecting via the prescribed NX mechanism.
+
+### Directive 7-A: Initial State
+
+**Date:** {{ human_date }}
+
+The apparatus is considered to be in a state of 'readiness'.
+
+### Addendum 3.1: Mandatory Information
+
+You are required to consult the GDA "Messages" menu. Non-compliance will be noted in your file.
+
+### Form 88/C: Apparatus Parameters
+
+  - Energy: 13000 eV. This value is non-negotiable.
+  - Beam Dimensions: 30x20 microns (HxV).
+  - Data Collection Procedure: The only approved method is 'Set target dose'. To utilize any other method, you must first submit form 88-D(bis) in triplicate to the committee, which does not currently meet.
+
+### Assessment Report
+
+An assessment has been carried out on the apparatus. {% if test_data_available %}The results from {{ a_test_sample }} crystal (Rmeas: {{rmeas_lowres}}%, ISa: {{ISa}}) were found to be sufficient. You are not required to understand these numbers, only to accept that they are sufficient.{% else %}The instrument has been calibrated. It is now your responsibility.{% endif %}
+
+{% if puck_info and puck_info.puck_names %}
+### Receipt of Your Items (Proposal: {{ puck_info.proposal }})
+
+Your {{ puck_info.puck_names | length }} item(s), hereafter referred to as 'the pucks', have been received and placed within the robotic dewar as per regulation 112.
+  - Item Identifiers: {{ puck_info.puck_names | join(', ') }}
+  - Storage References: {{ puck_info.locations | join(', ') }}
+{% else %}
+### Items Processed
+
+Your items are in the system. We can neither confirm nor deny their exact locations at this time.
+{% endif %}
+
+### Cessation of Use Protocol
+
+Upon conclusion of your allotted time, you must verify the arrival of the subsequent applicant. If the subsequent applicant is not present, you must cede control of the apparatus to the automated entity 'udc' *prior* to removing your items. Failure to follow this sequence will invalidate your results.
+
+### Requesting an Intervention
+
+Should you require intervention, you must file a request with the Experimental Hall Coordinators (EHCs). Please be prepared to state your case and await their judgment.
+
+The procedure is complete.
+
+{{i04_staff_member}}
+
+PS: {{ optional_tip }}
